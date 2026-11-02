@@ -113,6 +113,9 @@ export default function UmRahamPlatform() {
           <FileViewer fileId={openFileId} onClose={() => setOpenFileId(null)} />
         )}
       </AnimatePresence>
+
+      {/* ملمس مخملي فاخر فوق كامل الصفحة */}
+      <div className="grain-overlay" aria-hidden />
     </div>
   );
 }

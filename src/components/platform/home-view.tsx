@@ -1,10 +1,11 @@
 "use client";
 
 // الواجهة الرئيسية: البطل + الخدمات + المعرض + التواصل
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import {
   ArrowLeft,
   ChevronDown,
+  Crown,
   FileText,
   Images,
   MessageCircle,
@@ -14,7 +15,7 @@ import {
   Wallet,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -32,6 +33,160 @@ interface HomeViewProps {
   onOpenService: (id: number) => void;
 }
 
+/* ================= غبار ذهبي عائم (لوحة أداء عالية) ================= */
+
+function GoldDustCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const parent = canvas?.parentElement;
+    if (!canvas || !parent) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let raf = 0;
+    let running = false;
+    let w = 0;
+    let h = 0;
+
+    type Particle = {
+      x: number; y: number; r: number;
+      vy: number; vx: number; a: number;
+      tw: number; tws: number;
+    };
+    let particles: Particle[] = [];
+
+    const resize = () => {
+      const rect = parent.getBoundingClientRect();
+      w = rect.width;
+      h = rect.height;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const count = Math.min(36, Math.max(14, Math.floor(w / 30)));
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: 0.6 + Math.random() * 1.9,
+        vy: -(0.06 + Math.random() * 0.22),
+        vx: (Math.random() - 0.5) * 0.1,
+        a: 0.2 + Math.random() * 0.5,
+        tw: Math.random() * Math.PI * 2,
+        tws: 0.008 + Math.random() * 0.02,
+      }));
+    };
+
+    const drawFrame = () => {
+      ctx.clearRect(0, 0, w, h);
+      for (const p of particles) {
+        p.y += p.vy;
+        p.x += p.vx;
+        p.tw += p.tws;
+        const alpha = p.a * (0.55 + 0.45 * Math.sin(p.tw));
+        const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
+        glow.addColorStop(0, `rgba(246,226,122,${alpha.toFixed(3)})`);
+        glow.addColorStop(1, "rgba(246,226,122,0)");
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = `rgba(255,244,214,${Math.min(1, alpha + 0.12).toFixed(3)})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * 0.55, 0, Math.PI * 2);
+        ctx.fill();
+        if (p.y < -12) { p.y = h + 12; p.x = Math.random() * w; }
+        if (p.x < -12) p.x = w + 12;
+        if (p.x > w + 12) p.x = -12;
+      }
+    };
+
+    const loop = () => {
+      if (!running) return;
+      drawFrame();
+      raf = requestAnimationFrame(loop);
+    };
+
+    const start = () => {
+      if (running || reduceMotion) return;
+      running = true;
+      raf = requestAnimationFrame(loop);
+    };
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(raf);
+    };
+
+    resize();
+    if (reduceMotion) drawFrame(); // إطار ثابت واحد فقط
+    else start();
+
+    const onVisibility = () => (document.hidden ? stop() : start());
+    const ro = new ResizeObserver(() => {
+      resize();
+      if (reduceMotion) drawFrame();
+    });
+    ro.observe(parent);
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      stop();
+      ro.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      aria-hidden
+    />
+  );
+}
+
+/* ================= عدّاد متحرك فاخر ================= */
+
+function CountUp({ to, suffix = "", duration = 1500 }: { to: number; suffix?: string; duration?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-30px" });
+  const [val, setVal] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    let raf = 0;
+    const started = performance.now();
+    const step = (now: number) => {
+      const t = Math.min(1, (now - started) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setVal(Math.round(to * eased));
+      if (t < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, to, duration]);
+
+  return (
+    <span ref={ref} dir="ltr" className="tabular-nums">
+      {val}
+      {suffix}
+    </span>
+  );
+}
+
+/* ================= بقعة الضوء تتبع المؤشر ================= */
+
+function handleSpotlight(e: React.MouseEvent<HTMLElement>) {
+  const el = e.currentTarget;
+  const rect = el.getBoundingClientRect();
+  el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+  el.style.setProperty("--my", `${e.clientY - rect.top}px`);
+}
+
 /* ================= قسم البطل ================= */
 
 function HeroSection({ services }: { services: ServiceDTO[] }) {
@@ -41,6 +196,8 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
 
   return (
     <section className="relative overflow-hidden">
+      {/* غبار ذهبي عائم */}
+      <GoldDustCanvas />
       {/* خلفيات زخرفية */}
       <div className="bg-arabesque pointer-events-none absolute inset-0" aria-hidden />
       <div
@@ -61,17 +218,17 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-gold/25 bg-gold/5 px-4 py-1.5 text-sm text-gold-light lg:mx-0"
+            className="shine-sweep mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/8 px-5 py-2 text-sm text-gold-light shadow-[0_4px_24px_rgba(212,165,55,0.15)] lg:mx-0"
           >
-            <Sparkles className="h-4 w-4" />
-            منصة تعليمية موثوقة — خدمة تدعم طالبك من الألف إلى الياء
+            <Crown className="animate-breathe h-4 w-4 text-gold" />
+            منصة ملكية للخدمات الطلابية — تدعم طالبك من الألف إلى الياء
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-display text-6xl font-bold leading-[1.15] sm:text-7xl lg:text-8xl"
+            className="font-display royal-title text-6xl font-bold leading-[1.15] sm:text-7xl lg:text-8xl"
           >
             <span className="text-gold-gradient">أم رهام</span>
           </motion.h1>
@@ -104,7 +261,7 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
             className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
           >
             <a href="#services">
-              <Button size="lg" className="btn-gold h-12 gap-2 rounded-2xl px-7 text-base font-bold">
+              <Button size="lg" className="btn-gold btn-gold-gleam h-12 gap-2 rounded-2xl px-7 text-base font-bold">
                 تصفّح الخدمات
                 <ArrowLeft className="h-5 w-5" />
               </Button>
@@ -125,7 +282,7 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
             </a>
           </motion.div>
 
-          {/* إحصائيات */}
+          {/* إحصائيات بعدّادات ملكية */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -133,16 +290,18 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
             className="mt-10 grid max-w-md grid-cols-3 gap-3 max-lg:mx-auto"
           >
             {[
-              { value: `${services.length || 7}+`, label: "خدمة متكاملة", icon: Star },
-              { value: `${totalFiles || 9}+`, label: "ملف جاهز للتحميل", icon: FileText },
-              { value: "24/7", label: "استجابة واتساب", icon: Phone },
+              { value: services.length || 7, suffix: "+", label: "خدمة متكاملة", icon: Star },
+              { value: totalFiles || 9, suffix: "+", label: "ملف جاهز للتحميل", icon: FileText },
+              { value: 24, suffix: "/7", label: "استجابة واتساب", icon: Phone },
             ].map((s) => (
               <div
                 key={s.label}
-                className="glass-card rounded-2xl px-3 py-4 text-center"
+                className="glass-card shine-sweep rounded-2xl px-3 py-4 text-center"
               >
                 <s.icon className="mx-auto mb-1.5 h-4 w-4 text-gold" />
-                <div className="font-display text-xl font-bold text-gold-light">{s.value}</div>
+                <div className="font-display text-xl font-bold text-gold-light">
+                  <CountUp to={s.value} suffix={s.suffix} />
+                </div>
                 <div className="mt-0.5 text-[11px] font-medium text-muted-foreground">{s.label}</div>
               </div>
             ))}
@@ -231,13 +390,13 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
 function SectionTitle({ title, subtitle }: { title: string; subtitle: string }) {
   return (
     <div className="mb-10 text-center">
-      <h2 className="font-display text-3xl font-bold sm:text-4xl">
+      <h2 className="font-display royal-title text-3xl font-bold sm:text-4xl">
         <span className="text-gold-gradient">{title}</span>
       </h2>
       <div className="mt-4 flex items-center justify-center gap-3">
-        <span className="ornament-line w-16 sm:w-24" />
-        <Star className="h-4 w-4 text-gold" />
-        <span className="ornament-line w-16 sm:w-24" />
+        <span className="gold-divider w-16 sm:w-28" />
+        <span className="animate-breathe text-base text-gold-light" aria-hidden>✦</span>
+        <span className="gold-divider w-16 sm:w-28" />
       </div>
       <p className="mt-4 text-sm text-muted-foreground sm:text-base">{subtitle}</p>
     </div>
@@ -279,7 +438,8 @@ function ServicesGrid({ onOpenService }: { onOpenService: (id: number) => void }
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, delay: (i % 4) * 0.08 }}
             onClick={() => onOpenService(service.id)}
-            className="glass-card group relative overflow-hidden rounded-3xl p-6 text-start transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/45 hover:shadow-[0_18px_50px_-12px_rgba(212,165,55,0.28)]"
+            onMouseMove={handleSpotlight}
+            className="glass-card shine-sweep luxury-card ring-royal group relative overflow-hidden rounded-3xl p-6 text-start transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/45 hover:shadow-[0_18px_50px_-12px_rgba(212,165,55,0.28)]"
           >
             {/* لمعة الخلفية عند التحويم */}
             <div
@@ -288,10 +448,10 @@ function ServicesGrid({ onOpenService }: { onOpenService: (id: number) => void }
               aria-hidden
             />
 
-            <div className="relative">
+            <div className="relative z-[2]">
               <div className="mb-4 flex items-start justify-between">
                 <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/25 bg-gradient-to-br from-gold-light/20 to-gold/5 shadow-[0_8px_24px_rgba(212,165,55,0.15)] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                  <Icon className="h-7 w-7 text-gold" />
+                  <Icon className="animate-breathe h-7 w-7 text-gold" />
                 </span>
                 {service.filesCount > 0 && (
                   <span className="rounded-full border border-gold/25 bg-gold/10 px-2.5 py-1 text-[11px] font-bold text-gold-light">
@@ -411,9 +571,14 @@ function ContactSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="glass-card relative mx-auto max-w-3xl overflow-hidden rounded-[2rem] p-8 text-center sm:p-10"
+        className="glass-card shine-sweep relative mx-auto max-w-3xl overflow-hidden rounded-[2rem] p-8 text-center sm:p-10"
       >
         <div className="bg-arabesque pointer-events-none absolute inset-0" aria-hidden />
+        {/* زوايا أرابيسك ملكية */}
+        <span className="ornate-corner ornate-corner-tl" aria-hidden />
+        <span className="ornate-corner ornate-corner-tr" aria-hidden />
+        <span className="ornate-corner ornate-corner-bl" aria-hidden />
+        <span className="ornate-corner ornate-corner-br" aria-hidden />
         <div className="relative">
           <span className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-3xl bg-[#25d366]/15">
             <MessageCircle className="h-8 w-8 text-[#25d366]" />
@@ -491,7 +656,7 @@ export function HomeView({ onOpenService }: HomeViewProps) {
             { icon: Sparkles, title: "تنسيق أنيق", desc: "تنسيق احترافي لكل ملف قبل التسليم" },
             { icon: Images, title: "تحديث مستمر", desc: "ملفات وقوالب تضاف باستمرار للمنصة" },
           ].map((f) => (
-            <div key={f.title} className="glass-card flex items-center gap-4 rounded-2xl p-5">
+            <div key={f.title} className="glass-card shine-sweep flex items-center gap-4 rounded-2xl p-5">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gold/12">
                 <f.icon className="h-6 w-6 text-gold" />
               </span>

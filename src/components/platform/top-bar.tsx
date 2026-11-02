@@ -2,6 +2,7 @@
 
 // الشريط العلوي: الهوية + روابط سريعة + زر دخول المشرف
 import { Lock, Sparkle } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 interface TopBarProps {
@@ -18,8 +19,28 @@ const NAV_LINKS = [
 ];
 
 export function TopBar({ onHome, onAdmin, isAdmin }: TopBarProps) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 14);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
+    <header
+      className={`sticky top-0 z-40 border-b backdrop-blur-xl transition-all duration-500 ${
+        scrolled
+          ? "border-gold/25 bg-background/92 shadow-[0_10px_36px_rgba(212,165,55,0.1)]"
+          : "border-border/60 bg-background/80"
+      }`}
+    >
+      {/* خط ذهبي متوهج عند التمرير */}
+      <span
+        className={`gold-divider absolute inset-x-0 bottom-0 transition-opacity duration-500 ${scrolled ? "opacity-100" : "opacity-0"}`}
+        aria-hidden
+      />
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
         {/* الهوية */}
         <button
