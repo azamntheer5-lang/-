@@ -2,13 +2,27 @@
 
 // لوحة التحكم: تسجيل دخول + إدارة كاملة للمحتوى
 import { motion } from "framer-motion";
-import { Eye, EyeOff, KeyRound, Loader2, LogOut, ShieldCheck } from "lucide-react";
+import {
+  AlertTriangle,
+  CloudUpload,
+  Eye,
+  EyeOff,
+  KeyRound,
+  Loader2,
+  LogOut,
+  ShieldCheck,
+} from "lucide-react";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { apiFetch, useAdminSession } from "@/lib/client-api";
+import {
+  apiFetch,
+  PublishResultDTO,
+  useAdminSession,
+  usePublishStatus,
+} from "@/lib/client-api";
 import { ServicesManager } from "./services-manager";
 import { FilesManager } from "./files-manager";
 import { GalleryManager } from "./gallery-manager";
@@ -117,6 +131,10 @@ function LoginScreen({ onDone }: { onDone: () => void }) {
 
 function Dashboard({ onExit }: { onExit: () => void }) {
   const qc = useQueryClient();
+  const [publishing, setPublishing] = useState(false);
+  const { data: pubStatus } = usePublishStatus();
+  const publishAvailable = pubStatus?.available ?? false;
+  const hasChanges = pubStatus?.hasChanges ?? false;
 
   const logout = async () => {
     await apiFetch("/api/admin/logout", { method: "POST" }).catch(() => {});
@@ -127,6 +145,25 @@ function Dashboard({ onExit }: { onExit: () => void }) {
     onExit();
   };
 
+  const publish = async () => {
+    setPublishing(true);
+    try {
+      const res = await apiFetch<PublishResultDTO>("/api/admin/publish", {
+        method: "POST",
+      });
+      if (res.published) {
+        toast.success(res.message, { duration: 6000 });
+      } else {
+        toast.info(res.message);
+      }
+      qc.invalidateQueries({ queryKey: ["publish-status"] });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "تعذر النشر");
+    } finally {
+      setPublishing(false);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -134,6 +171,22 @@ function Dashboard({ onExit }: { onExit: () => void }) {
       transition={{ duration: 0.45 }}
       className="mx-auto max-w-7xl px-4 py-8 sm:px-6"
     >
+      {/* تنبيه النسخة المؤقتة (على Vercel) */}
+      {!publishAvailable && (
+        <div
+          className="mb-6 flex items-start gap-3 rounded-3xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm leading-relaxed text-amber-600 dark:text-amber-300"
+          role="alert"
+        >
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" aria-hidden />
+          <p>
+            <strong className="font-bold">تنبيه:</strong> أنت تستخدم النسخة المنشورة
+            وأي إضافات هنا <strong className="font-bold">مؤقتة وستُفقد</strong>. لإضافات
+            دائمة افتح نسخة المعاينة (بيئة التطوير)، ارفع الملفات من لوحة التحكم ثم اضغط زر
+            «نشر التحديثات».
+          </p>
+        </div>
+      )}
+
       {/* ترويسة اللوحة */}
       <div className="glass-card mb-6 flex flex-wrap items-center gap-3 rounded-3xl p-5">
         <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-gold/30 bg-gold/10">
@@ -144,9 +197,31 @@ function Dashboard({ onExit }: { onExit: () => void }) {
             لوحة تحكم أم رهام
           </h1>
           <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">
-            أضف وعدّل الخدمات والملفات والصور — التغييرات تظهر فوراً في الموقع
+            {publishAvailable
+              ? "أضف وعدّل بحرية — ثم اضغط «نشر التحديثات» لجعل التغييرات دائمة على الموقع"
+              : "أضف وعدّل الخدمات والملفات والصور — التغييرات تظهر فوراً في الموقع"}
           </p>
         </div>
+        {publishAvailable && (
+          <Button
+            onClick={publish}
+            disabled={publishing}
+            className="btn-gold relative h-10 gap-2 rounded-xl px-4 font-bold"
+          >
+            {publishing ? (
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+            ) : (
+              <CloudUpload className="h-4 w-4" aria-hidden />
+            )}
+            {publishing ? "جارٍ النشر…" : "نشر التحديثات"}
+            {hasChanges && !publishing && (
+              <span className="absolute -end-1 -top-1.5 flex h-3.5 w-3.5" aria-hidden>
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold-light opacity-75" />
+                <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-background bg-gold" />
+              </span>
+            )}
+          </Button>
+        )}
         <Button
           onClick={logout}
           variant="outline"

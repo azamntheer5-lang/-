@@ -75,6 +75,29 @@ export function useAdminSession() {
   });
 }
 
+/* ================= حالة النشر الدائم ================= */
+
+export interface PublishStatusDTO {
+  available: boolean;
+  hasChanges: boolean;
+}
+
+export function usePublishStatus() {
+  return useQuery({
+    queryKey: ["publish-status"],
+    queryFn: () => apiFetch<PublishStatusDTO>("/api/admin/publish"),
+    refetchInterval: 20_000,
+    refetchOnWindowFocus: true,
+  });
+}
+
+export interface PublishResultDTO {
+  ok: boolean;
+  published: boolean;
+  commit?: string;
+  message: string;
+}
+
 export function imageUrl(id: number) {
   return `/api/site/images/${id}/content`;
 }
