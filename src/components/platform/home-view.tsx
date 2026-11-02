@@ -218,9 +218,11 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="shine-sweep mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/8 px-5 py-2 text-sm text-gold-light shadow-[0_4px_24px_rgba(212,165,55,0.15)] lg:mx-0"
+            className="shine-sweep mx-auto mb-6 inline-flex items-center gap-2.5 rounded-full border border-gold/40 bg-gradient-to-l from-gold/15 via-gold/8 to-gold/15 px-5 py-2 text-sm font-medium text-gold-light shadow-[0_4px_28px_rgba(212,165,55,0.25)] lg:mx-0"
           >
-            <Crown className="animate-breathe h-4 w-4 text-gold" />
+            <span className="animate-breathe flex h-7 w-7 items-center justify-center rounded-full border border-gold/40 bg-gradient-to-br from-gold-light/30 to-gold/10 shadow-[0_0_16px_rgba(212,165,55,0.5)]">
+              <Crown className="h-4.5 w-4.5 text-gold-light" />
+            </span>
             منصة ملكية للخدمات الطلابية — تدعم طالبك من الألف إلى الياء
           </motion.div>
 
