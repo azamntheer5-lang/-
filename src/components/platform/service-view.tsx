@@ -52,6 +52,10 @@ function isPdf(mime: string) {
   return mime === "application/pdf";
 }
 
+function isImage(mime: string) {
+  return mime.startsWith("image/");
+}
+
 /* ===== بطاقة ملف ===== */
 function FileCard({
   file,
@@ -75,43 +79,94 @@ function FileCard({
       transition={{ duration: 0.35 }}
       className="glass-card group relative flex flex-col rounded-3xl p-5 transition-all duration-300 hover:-translate-y-1 hover:border-gold/45 hover:shadow-[0_16px_44px_-14px_rgba(212,165,55,0.3)]"
     >
-      <div className="flex items-start gap-3.5">
-        <span
-          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border transition-transform duration-300 group-hover:scale-110 ${
-            isPdf(file.mimeType)
-              ? "border-gold/25 bg-gradient-to-br from-gold-light/20 to-gold/5"
-              : "border-border bg-secondary"
-          }`}
-        >
-          {isPdf(file.mimeType) ? (
-            <FileText className="h-6 w-6 text-gold" />
-          ) : (
-            <ImageIcon className="h-6 w-6 text-muted-foreground" />
-          )}
-        </span>
-        <div className="min-w-0 flex-1">
-          <h3
-            className="line-clamp-2 cursor-pointer text-sm font-bold leading-6 text-foreground transition-colors group-hover:text-gold-light"
+      {isImage(file.mimeType) ? (
+        /* بطاقة صورة: معاينة حقيقية أعلى البطاقة */
+        <>
+          <div
+            className="relative mb-4 aspect-[16/10] cursor-pointer overflow-hidden rounded-2xl border border-gold/20 bg-secondary/50"
             onClick={() => onOpen(file.id)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === "Enter" && onOpen(file.id)}
+            aria-label={`فتح ${file.title}`}
           >
-            {file.title}
-          </h3>
-          <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
-            {file.description || "—"}
-          </p>
+            <img
+              src={fileContentUrl(file.id)}
+              alt={file.title}
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+            />
+            <span className="absolute start-2.5 top-2.5 inline-flex items-center gap-1 rounded-full border border-gold/30 bg-[#080706]/80 px-2.5 py-1 text-[10px] font-bold text-gold-light backdrop-blur-sm">
+              <ImageIcon className="h-3 w-3" />
+              صورة
+            </span>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#080706]/70 to-transparent" />
+          </div>
+          <div className="flex items-start gap-2">
+            <div className="min-w-0 flex-1">
+              <h3
+                className="line-clamp-2 cursor-pointer text-sm font-bold leading-6 text-foreground transition-colors group-hover:text-gold-light"
+                onClick={() => onOpen(file.id)}
+              >
+                {file.title}
+              </h3>
+              <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
+                {file.description || "—"}
+              </p>
+            </div>
+            {isAdmin && (
+              <button
+                onClick={() => onDelete(file.id)}
+                disabled={deleting}
+                aria-label="حذف الملف"
+                title="حذف الملف"
+                className="shrink-0 rounded-lg p-1.5 text-muted-foreground/60 transition-colors hover:bg-destructive/15 hover:text-destructive"
+              >
+                {deleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              </button>
+            )}
+          </div>
+        </>
+      ) : (
+        /* بطاقة مستند: أيقونة الملف */
+        <div className="flex items-start gap-3.5">
+          <span
+            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border transition-transform duration-300 group-hover:scale-110 ${
+              isPdf(file.mimeType)
+                ? "border-gold/25 bg-gradient-to-br from-gold-light/20 to-gold/5"
+                : "border-border bg-secondary"
+            }`}
+          >
+            {isPdf(file.mimeType) ? (
+              <FileText className="h-6 w-6 text-gold" />
+            ) : (
+              <ImageIcon className="h-6 w-6 text-muted-foreground" />
+            )}
+          </span>
+          <div className="min-w-0 flex-1">
+            <h3
+              className="line-clamp-2 cursor-pointer text-sm font-bold leading-6 text-foreground transition-colors group-hover:text-gold-light"
+              onClick={() => onOpen(file.id)}
+            >
+              {file.title}
+            </h3>
+            <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
+              {file.description || "—"}
+            </p>
+          </div>
+          {isAdmin && (
+            <button
+              onClick={() => onDelete(file.id)}
+              disabled={deleting}
+              aria-label="حذف الملف"
+              title="حذف الملف"
+              className="rounded-lg p-1.5 text-muted-foreground/60 transition-colors hover:bg-destructive/15 hover:text-destructive"
+            >
+              {deleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+            </button>
+          )}
         </div>
-        {isAdmin && (
-          <button
-            onClick={() => onDelete(file.id)}
-            disabled={deleting}
-            aria-label="حذف الملف"
-            title="حذف الملف"
-            className="rounded-lg p-1.5 text-muted-foreground/60 transition-colors hover:bg-destructive/15 hover:text-destructive"
-          >
-            {deleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
-          </button>
-        )}
-      </div>
+      )}
 
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
         <span className="inline-flex items-center gap-1">

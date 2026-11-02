@@ -1,48 +1,257 @@
 "use client";
 
-// عارض الملفات: يفتح فوق الصفحة بحجم كامل مع زر خروج عائم
-import { motion } from "framer-motion";
+// عارض الملفات: PDF داخل إطار، صور بعدسة فاخرة (تكبير/سحب)، وتنقل بين الملفات
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Calendar,
+  ChevronLeft,
+  ChevronRight,
   Download,
   ExternalLink,
   FileText,
   HardDrive,
+  Image as ImageIcon,
   Loader2,
+  Maximize2,
+  Minimize2,
   X,
+  ZoomIn,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   apiFetch,
   fileContentUrl,
   FileDTO,
+  useServiceFiles,
 } from "@/lib/client-api";
 import { formatBytes, formatDate } from "@/lib/format";
 
 export interface FileMeta extends FileDTO {
+  serviceId: number;
   serviceTitle: string;
 }
 
+function isPdfMime(mime: string) {
+  return mime === "application/pdf";
+}
+function isImageMime(mime: string) {
+  return mime.startsWith("image/");
+}
+
+/* ===== عدسة الصور الفاخرة ===== */
+function ImageStage({
+  fileId,
+  title,
+}: {
+  fileId: number;
+  title: string;
+}) {
+  const [loaded, setLoaded] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
+  const [origin, setOrigin] = useState("50% 50%");
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragging = useRef(false);
+  const lastPointer = useRef({ x: 0, y: 0 });
+  const moved = useRef(false);
+
+  const toggleZoom = (e: React.MouseEvent<HTMLImageElement>) => {
+    if (moved.current) return; // كان سحباً وليس نقرة
+    if (zoomed) {
+      setZoomed(false);
+      setOffset({ x: 0, y: 0 });
+    } else {
+      const r = e.currentTarget.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width) * 100;
+      const y = ((e.clientY - r.top) / r.height) * 100;
+      setOrigin(`${x}% ${y}%`);
+      setZoomed(true);
+    }
+  };
+
+  const onPointerDown = (e: React.PointerEvent<HTMLImageElement>) => {
+    if (!zoomed) return;
+    dragging.current = true;
+    setIsDragging(true);
+    moved.current = false;
+    lastPointer.current = { x: e.clientX, y: e.clientY };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const onPointerMove = (e: React.PointerEvent<HTMLImageElement>) => {
+    if (!dragging.current) return;
+    const dx = e.clientX - lastPointer.current.x;
+    const dy = e.clientY - lastPointer.current.y;
+    if (Math.abs(dx) + Math.abs(dy) > 3) moved.current = true;
+    lastPointer.current = { x: e.clientX, y: e.clientY };
+    setOffset((o) => ({ x: o.x + dx, y: o.y + dy }));
+  };
+
+  const onPointerUp = (e: React.PointerEvent<HTMLImageElement>) => {
+    dragging.current = false;
+    setIsDragging(false);
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      // تجاهل
+    }
+    // اسمح بالنقر للتصغير بعد لحظة قصيرة من الإفلات
+    window.setTimeout(() => {
+      moved.current = false;
+    }, 50);
+  };
+
+  return (
+    <div className="relative flex h-full w-full items-center justify-center overflow-hidden p-4 sm:p-8">
+      {/* هالة ذهبية خلف الصورة */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,165,55,0.10),transparent_62%)]"
+        aria-hidden
+      />
+
+      <AnimatePresence mode="wait">
+        {!loaded && (
+          <motion.div
+            key="loader"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4"
+          >
+            <Loader2 className="h-10 w-10 animate-spin text-gold" />
+            <p className="text-sm text-muted-foreground">جارٍ تحضير الصورة...</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.img
+        key={fileId}
+        src={fileContentUrl(fileId)}
+        alt={title}
+        draggable={false}
+        onLoad={() => setLoaded(true)}
+        onClick={toggleZoom}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        initial={false}
+        animate={{
+          opacity: loaded ? 1 : 0,
+          scale: zoomed ? 2.4 : 1,
+          x: offset.x,
+          y: offset.y,
+        }}
+        transition={{ opacity: { duration: 0.45 }, default: { type: "spring", stiffness: 260, damping: 30 } }}
+        style={{ transformOrigin: origin }}
+        className={`max-h-full max-w-full select-none rounded-2xl border-2 border-gold/35 object-contain shadow-[0_0_60px_-12px_rgba(212,165,55,0.4),0_30px_80px_-20px_rgba(0,0,0,0.9)] ${
+          zoomed
+            ? isDragging
+              ? "cursor-grabbing"
+              : "cursor-grab"
+            : "cursor-zoom-in"
+        }`}
+      />
+
+      {/* مؤشر التكبير */}
+      {loaded && (
+        <motion.span
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="pointer-events-none absolute bottom-4 start-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-gold/25 bg-[#080706]/85 px-3.5 py-1.5 text-[11px] font-bold text-gold-light backdrop-blur-md"
+        >
+          {zoomed ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+          {zoomed ? "اضغط للتصغير — اسحب للتجول" : "اضغط على الصورة للتكبير"}
+        </motion.span>
+      )}
+    </div>
+  );
+}
+
+/* ===== عرض الـ PDF داخل إطار ===== */
+function PdfStage({ fileId, title }: { fileId: number; title: string }) {
+  const [frameLoaded, setFrameLoaded] = useState(false);
+  return (
+    <>
+      {!frameLoaded && (
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4">
+          <Loader2 className="h-10 w-10 animate-spin text-gold" />
+          <p className="text-sm text-muted-foreground">جارٍ تحضير العرض...</p>
+        </div>
+      )}
+      <iframe
+        src={fileContentUrl(fileId)}
+        title={title}
+        onLoad={() => setFrameLoaded(true)}
+        className="h-full w-full border-0 bg-[#141414]"
+      />
+    </>
+  );
+}
+
+/* ===== زر تنقل جانبي ===== */
+function NavButton({
+  direction,
+  onClick,
+  label,
+}: {
+  direction: "prev" | "next";
+  onClick: () => void;
+  label: string;
+}) {
+  const Icon = direction === "prev" ? ChevronRight : ChevronLeft;
+  const pos = direction === "prev" ? "end-4" : "start-4";
+  return (
+    <motion.button
+      initial={{ opacity: 0, x: direction === "prev" ? 12 : -12 }}
+      animate={{ opacity: 1, x: 0 }}
+      whileHover={{ scale: 1.08 }}
+      whileTap={{ scale: 0.92 }}
+      onClick={onClick}
+      aria-label={label}
+      title={label}
+      className={`absolute ${pos} top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/35 bg-[#080706]/80 text-gold-light shadow-[0_0_24px_-6px_rgba(212,165,55,0.45)] backdrop-blur-md transition-colors hover:border-gold/60 hover:bg-gold/15 hover:text-gold-light`}
+    >
+      <Icon className="h-6 w-6" />
+    </motion.button>
+  );
+}
+
+/* ===== العارض الرئيسي ===== */
 export function FileViewer({
   fileId,
   onClose,
+  onNavigate,
 }: {
   fileId: number;
   onClose: () => void;
+  onNavigate?: (id: number) => void;
 }) {
-  const [frameLoaded, setFrameLoaded] = useState(false);
   const { data, isLoading, isError } = useQuery({
     queryKey: ["file", fileId],
     queryFn: () => apiFetch<{ file: FileMeta }>(`/api/files/${fileId}`),
   });
   const file = data?.file;
-  const isPdf = file ? file.mimeType === "application/pdf" : true;
 
-  // إغلاق بزر Escape
+  // قائمة ملفات الخدمة نفسها للتنقل
+  const { data: svcData } = useServiceFiles(file?.serviceId ?? null);
+  const navFiles = useMemo(() => svcData?.files ?? [], [svcData]);
+  const navIndex = navFiles.findIndex((f) => f.id === fileId);
+  const prevFile = navIndex > 0 ? navFiles[navIndex - 1] : null;
+  const nextFile =
+    navIndex >= 0 && navIndex < navFiles.length - 1 ? navFiles[navIndex + 1] : null;
+
+  const isPdf = file ? isPdfMime(file.mimeType) : false;
+  const isImage = file ? isImageMime(file.mimeType) : false;
+
+  // إغلاق بزر Escape وتنقل بالأسهم (الاتجاه العربي: اليسار = التالي)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft" && nextFile && onNavigate) onNavigate(nextFile.id);
+      if (e.key === "ArrowRight" && prevFile && onNavigate) onNavigate(prevFile.id);
     };
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -50,7 +259,7 @@ export function FileViewer({
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [onClose]);
+  }, [onClose, onNavigate, nextFile, prevFile]);
 
   return (
     <motion.div
@@ -67,7 +276,11 @@ export function FileViewer({
       <div className="border-b border-border/60 bg-background/70 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1400px] flex-wrap items-center gap-3 px-4 py-3 sm:px-6">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-gold/25 bg-gold/10">
-            <FileText className="h-5 w-5 text-gold" />
+            {isImage ? (
+              <ImageIcon className="h-5 w-5 text-gold" />
+            ) : (
+              <FileText className="h-5 w-5 text-gold" />
+            )}
           </span>
           <div className="min-w-0 flex-1">
             <h2 className="truncate text-sm font-bold text-foreground sm:text-base">
@@ -80,6 +293,13 @@ export function FileViewer({
               </p>
             )}
           </div>
+
+          {navFiles.length > 1 && navIndex >= 0 && (
+            <span className="hidden items-center gap-1.5 rounded-full border border-gold/25 bg-gold/8 px-3 py-1.5 text-[11px] font-bold text-gold-light sm:inline-flex">
+              <ZoomIn className="h-3 w-3" />
+              {navIndex + 1} من {navFiles.length}
+            </span>
+          )}
 
           {file && (
             <div className="flex items-center gap-2">
@@ -127,23 +347,13 @@ export function FileViewer({
               </>
             )}
           </div>
+        ) : isImage ? (
+          /* العدسة الفاخرة — key يعيد ضبط التكبير مع كل صورة */
+          <ImageStage key={file.id} fileId={file.id} title={file.title} />
         ) : isPdf ? (
-          <>
-            {!frameLoaded && (
-              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4">
-                <Loader2 className="h-10 w-10 animate-spin text-gold" />
-                <p className="text-sm text-muted-foreground">جارٍ تحضير العرض...</p>
-              </div>
-            )}
-            <iframe
-              src={fileContentUrl(file.id)}
-              title={file.title}
-              onLoad={() => setFrameLoaded(true)}
-              className="h-full w-full border-0 bg-[#141414]"
-            />
-          </>
+          <PdfStage key={file.id} fileId={file.id} title={file.title} />
         ) : (
-          /* ملف غير PDF: لا يمكن معاينته داخل المتصفح */
+          /* مستند آخر: قابل للتحميل فقط */
           <div className="flex h-full flex-col items-center justify-center gap-5 px-4 text-center">
             <span className="flex h-20 w-20 items-center justify-center rounded-3xl border border-gold/25 bg-gold/10">
               <FileText className="h-10 w-10 text-gold" />
@@ -164,6 +374,22 @@ export function FileViewer({
             </a>
           </div>
         )}
+
+        {/* أزرار التنقل بين ملفات الخدمة */}
+        {onNavigate && prevFile && (
+          <NavButton
+            direction="prev"
+            onClick={() => onNavigate(prevFile.id)}
+            label={`السابق: ${prevFile.title}`}
+          />
+        )}
+        {onNavigate && nextFile && (
+          <NavButton
+            direction="next"
+            onClick={() => onNavigate(nextFile.id)}
+            label={`التالي: ${nextFile.title}`}
+          />
+        )}
       </div>
 
       {/* شريط المعلومات */}
@@ -182,6 +408,9 @@ export function FileViewer({
               <Download className="h-3.5 w-3.5 text-gold/70" />
               التنزيلات: {file.downloads}
             </span>
+            {navFiles.length > 1 && navIndex >= 0 && (
+              <span className="sm:hidden">{navIndex + 1} / {navFiles.length}</span>
+            )}
           </div>
         </div>
       )}

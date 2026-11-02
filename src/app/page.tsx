@@ -110,7 +110,11 @@ export default function UmRahamPlatform() {
       {/* عارض الملفات */}
       <AnimatePresence>
         {openFileId !== null && (
-          <FileViewer fileId={openFileId} onClose={() => setOpenFileId(null)} />
+          <FileViewer
+            fileId={openFileId}
+            onClose={() => setOpenFileId(null)}
+            onNavigate={(id) => setOpenFileId(id)}
+          />
         )}
       </AnimatePresence>
 

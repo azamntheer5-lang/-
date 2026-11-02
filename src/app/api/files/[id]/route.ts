@@ -28,6 +28,7 @@ export async function GET(
         mimeType: file.mimeType,
         downloads: file.downloads,
         createdAt: file.createdAt,
+        serviceId: file.serviceId,
         serviceTitle: file.service.title,
       },
     });
