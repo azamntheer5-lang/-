@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// الخدمات المعروضة في الواجهة
+model Service {
+  id          Int         @id @default(autoincrement())
+  title       String
+  description String      @default("")
+  icon        String      @default("folder") // مفتاح أيقونة من الخريطة الأمامية
+  sortOrder   Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  files       FileItem[]
+  images      SiteImage[]
+}
+
+// ملفات الخدمة (PDF وغيرها)
+model FileItem {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String   @default("")
+  storedName   String // اسم الملف على القرص
+  originalName String
+  fileSize     Int      @default(0) // بالبايت
+  mimeType     String   @default("application/pdf")
+  downloads    Int      @default(0)
+  serviceId    Int
+  service      Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// صور الموقع: صورة البطل (hero) أو معرض الصور (gallery)
+model SiteImage {
+  id         Int      @id @default(autoincrement())
+  title      String   @default("")
+  kind       String   @default("gallery") // hero | gallery
+  storedName String
+  serviceId  Int?
+  service    Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+}
