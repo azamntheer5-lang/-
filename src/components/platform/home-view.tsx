@@ -192,6 +192,7 @@ function handleSpotlight(e: React.MouseEvent<HTMLElement>) {
 function HeroSection({ services }: { services: ServiceDTO[] }) {
   const { data: images } = useSiteImages();
   const hero = images?.hero;
+  const [heroImgError, setHeroImgError] = useState(false);
   const totalFiles = services.reduce((sum, s) => sum + s.filesCount, 0);
 
   return (
@@ -331,11 +332,12 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
           {/* الإطار */}
           <div className="gold-glow arch-frame relative overflow-hidden border-2 border-gold/50 bg-surface p-1.5">
             <div className="arch-frame relative overflow-hidden">
-              {hero ? (
+              {hero && !heroImgError ? (
                 <img
                   src={imageUrl(hero.id)}
                   alt="أم رهام — خدمات طلابية متكاملة"
                   className="arch-frame h-[420px] w-full object-cover sm:h-[500px]"
+                  onError={() => setHeroImgError(true)}
                 />
               ) : (
                 <div className="arch-frame flex h-[420px] w-full items-center justify-center bg-gradient-to-b from-gold/15 to-transparent sm:h-[500px]">
@@ -408,7 +410,7 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle: string }) 
 /* ================= شبكة الخدمات ================= */
 
 function ServicesGrid({ onOpenService }: { onOpenService: (id: number) => void }) {
-  const { data: services, isLoading, error } = useServices();
+  const { data: services, isLoading, error, refetch } = useServices();
 
   if (isLoading) {
     return (
@@ -422,8 +424,12 @@ function ServicesGrid({ onOpenService }: { onOpenService: (id: number) => void }
 
   if (error || !services) {
     return (
-      <div className="glass-card mx-auto max-w-md rounded-3xl p-8 text-center">
+      <div className="glass-card shine-sweep mx-auto max-w-md rounded-3xl p-8 text-center">
         <p className="text-muted-foreground">تعذر تحميل الخدمات، حدّث الصفحة وأعد المحاولة.</p>
+        <Button onClick={() => refetch()} className="btn-gold btn-gold-gleam mt-5 gap-2 rounded-2xl px-6 font-bold">
+          <Sparkles className="h-4 w-4" />
+          أعد المحاولة
+        </Button>
       </div>
     );
   }

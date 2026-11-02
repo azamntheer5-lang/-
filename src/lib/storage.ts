@@ -1,9 +1,16 @@
 // أدوات التخزين على القرص
 import path from "path";
 import { randomUUID } from "crypto";
-import { mkdirSync, existsSync, unlinkSync } from "fs";
+import { mkdirSync, existsSync, unlinkSync, copyFileSync } from "fs";
+import { tmpdir } from "os";
 
-export const STORAGE_DIR = path.join(process.cwd(), "storage", "uploads");
+/** المجلد الأصلي المتتبع في المستودع (للقراءة فقط على فيرسل) */
+const TRACED_UPLOADS = path.join(process.cwd(), "storage", "uploads");
+
+/** مجلد التخزين: محلياً داخل المشروع، وعلى فيرسل داخل /tmp القابل للكتابة */
+export const STORAGE_DIR = process.env.VERCEL
+  ? path.join(tmpdir(), "umraham-uploads")
+  : TRACED_UPLOADS;
 
 export function ensureStorage() {
   if (!existsSync(STORAGE_DIR)) {
@@ -47,7 +54,20 @@ export function storedNameFor(originalName: string): string {
 export function storedPath(storedName: string): string {
   // حماية من اجتياز المسارات
   const safe = path.basename(storedName);
-  return path.join(STORAGE_DIR, safe);
+  const primary = path.join(STORAGE_DIR, safe);
+  // على فيرسل: الملفات الموجودة مسبقاً تُنسخ من المجلد المتتبع عند أول طلب
+  if (process.env.VERCEL && !existsSync(primary)) {
+    const traced = path.join(TRACED_UPLOADS, safe);
+    if (existsSync(traced)) {
+      try {
+        mkdirSync(STORAGE_DIR, { recursive: true });
+        copyFileSync(traced, primary);
+      } catch {
+        return traced; // اقرأ من الأصل مباشرة
+      }
+    }
+  }
+  return primary;
 }
 
 export function removeStored(storedName: string) {
