@@ -96,7 +96,7 @@ function FileCard({
               loading="lazy"
               className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
             />
-            <span className="absolute start-2.5 top-2.5 inline-flex items-center gap-1 rounded-full border border-gold/30 bg-[#080706]/80 px-2.5 py-1 text-[10px] font-bold text-gold-light backdrop-blur-sm">
+            <span className="absolute start-2.5 top-2.5 inline-flex items-center gap-1 rounded-full border border-gold/40 bg-white/90 px-2.5 py-1 text-[10px] font-bold text-gold-deep backdrop-blur-sm">
               <ImageIcon className="h-3 w-3" />
               صورة
             </span>
@@ -383,7 +383,7 @@ export function ServiceView({
       {isLoading ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-52 rounded-3xl bg-white/[0.04]" />
+            <Skeleton key={i} className="h-52 rounded-3xl bg-black/[0.06]" />
           ))}
         </div>
       ) : isError ? (

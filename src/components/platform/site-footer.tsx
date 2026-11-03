@@ -11,7 +11,7 @@ interface SiteFooterProps {
 
 export function SiteFooter({ onAdmin }: SiteFooterProps) {
   return (
-    <footer className="mt-auto border-t border-border/60 bg-[#080706]">
+    <footer className="mt-auto border-t border-gold/20 bg-[#f3ecdb]">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <div className="grid gap-8 md:grid-cols-3">
           {/* الهوية */}
@@ -21,7 +21,7 @@ export function SiteFooter({ onAdmin }: SiteFooterProps) {
                 <Sparkle className="h-4.5 w-4.5 text-gold" />
               </span>
               <div className="leading-tight">
-                <span className="font-display block text-lg font-bold text-gold-gradient">أم رهام</span>
+                <span className="font-display block text-lg font-bold text-gold-gradient">أم غلا</span>
                 <span className="block text-[11px] text-muted-foreground">خدمات طلابية متكاملة</span>
               </div>
             </div>
@@ -76,7 +76,7 @@ export function SiteFooter({ onAdmin }: SiteFooterProps) {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border/40 pt-6 sm:flex-row">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} أم رهام — جميع الحقوق محفوظة
+            © {new Date().getFullYear()} أم غلا — جميع الحقوق محفوظة
           </p>
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">

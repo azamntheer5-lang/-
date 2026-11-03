@@ -1,6 +1,6 @@
 "use client";
 
-// منصة أم رهام — صفحة واحدة متكاملة: الرئيسية / الخدمات / الملفات / اللوحة
+// منصة أم غلا — صفحة واحدة متكاملة: الرئيسية / الخدمات / الملفات / اللوحة
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { useAdminSession } from "@/lib/client-api";
@@ -14,7 +14,7 @@ import { ExitFloat, WhatsAppFloat } from "@/components/platform/floating-buttons
 
 type Page = "home" | "service" | "admin";
 
-export default function UmRahamPlatform() {
+export default function UmGhalaPlatform() {
   const [page, setPage] = useState<Page>("home");
   const [activeService, setActiveService] = useState<number | null>(null);
   const [openFileId, setOpenFileId] = useState<number | null>(null);

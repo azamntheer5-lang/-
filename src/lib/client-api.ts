@@ -106,8 +106,8 @@ export function fileContentUrl(id: number, download = false) {
   return `/api/files/${id}/content${download ? "?download=1" : ""}`;
 }
 
-export const WHATSAPP_NUMBER = "967770309310";
-export const WHATSAPP_DISPLAY = "770309310";
+export const WHATSAPP_NUMBER = "966535573397";
+export const WHATSAPP_DISPLAY = "+966 53 557 3397";
 export function whatsappLink(message?: string) {
   const base = `https://wa.me/${WHATSAPP_NUMBER}`;
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;

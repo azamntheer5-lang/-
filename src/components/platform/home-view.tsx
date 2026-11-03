@@ -25,6 +25,7 @@ import {
   useServices,
   useSiteImages,
   WHATSAPP_DISPLAY,
+  WHATSAPP_NUMBER,
   whatsappLink,
 } from "@/lib/client-api";
 import { serviceIcon } from "./icon-map";
@@ -233,7 +234,7 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-display royal-title text-6xl font-bold leading-[1.15] sm:text-7xl lg:text-8xl"
           >
-            <span className="text-gold-gradient">أم رهام</span>
+            <span className="text-gold-gradient">أم غلا</span>
           </motion.h1>
 
           <motion.p
@@ -270,7 +271,7 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
               </Button>
             </a>
             <a
-              href={whatsappLink("السلام عليكم، أرغب بالاستفسار عن خدمات أم رهام الطلابية 🌟")}
+              href={whatsappLink("السلام عليكم، أرغب بالاستفسار عن خدمات أم غلا الطلابية 🌟")}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -335,7 +336,7 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
               {hero && !heroImgError ? (
                 <img
                   src={imageUrl(hero.id)}
-                  alt="أم رهام — خدمات طلابية متكاملة"
+                  alt="أم غلا — خدمات طلابية متكاملة"
                   className="arch-frame h-[420px] w-full object-cover sm:h-[500px]"
                   onError={() => setHeroImgError(true)}
                 />
@@ -350,8 +351,8 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
                 aria-hidden
               />
               <div className="absolute bottom-4 start-1/2 w-max -translate-x-1/2">
-                <span className="font-display rounded-full border border-gold/30 bg-black/45 px-5 py-1.5 text-lg font-bold text-gold-light backdrop-blur-md">
-                  أم رهام ✦ بخدماتها ترتقي
+                <span className="font-display rounded-full border border-gold/40 bg-white/85 px-5 py-1.5 text-lg font-bold text-gold-deep backdrop-blur-md">
+                  أم غلا ✦ بخدماتها ترتقي
                 </span>
               </div>
             </div>
@@ -416,7 +417,7 @@ function ServicesGrid({ onOpenService }: { onOpenService: (id: number) => void }
     return (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {Array.from({ length: 8 }).map((_, i) => (
-          <Skeleton key={i} className="h-44 rounded-3xl bg-white/[0.04]" />
+          <Skeleton key={i} className="h-44 rounded-3xl bg-black/[0.06]" />
         ))}
       </div>
     );
@@ -516,7 +517,7 @@ function GallerySection() {
           >
             <img
               src={imageUrl(img.id)}
-              alt={img.title || "صورة من معرض أعمال أم رهام"}
+              alt={img.title || "صورة من معرض أعمال أم غلا"}
               loading="lazy"
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
@@ -554,7 +555,7 @@ function GallerySection() {
           </motion.div>
           <button
             onClick={() => setLightbox(null)}
-            className="absolute top-5 end-5 rounded-full border border-gold/30 bg-black/60 p-2.5 text-gold-light transition hover:bg-gold/20"
+            className="absolute top-5 end-5 rounded-full border border-gold/40 bg-white/90 p-2.5 text-gold-deep shadow-lg transition hover:bg-gold/15"
             aria-label="إغلاق العارض"
           >
             <X className="h-5 w-5" />
@@ -572,7 +573,7 @@ function ContactSection() {
     <section id="contact" className="relative mx-auto max-w-7xl scroll-mt-24 px-4 py-16 sm:px-6">
       <SectionTitle
         title="تواصل معنا"
-        subtitle="فريق أم رهام جاهز للرد على استفساراتك وطلباتك في أي وقت"
+        subtitle="فريق أم غلا جاهز للرد على استفساراتك وطلباتك في أي وقت"
       />
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -615,7 +616,7 @@ function ContactSection() {
                 إرسال رسالة الآن
               </Button>
             </a>
-            <a href={`tel:+${WHATSAPP_DISPLAY}`}>
+            <a href={`tel:+${WHATSAPP_NUMBER}`}>
               <Button
                 size="lg"
                 variant="outline"

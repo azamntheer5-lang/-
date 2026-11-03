@@ -145,7 +145,7 @@ function ImageStage({
         }}
         transition={{ opacity: { duration: 0.45 }, default: { type: "spring", stiffness: 260, damping: 30 } }}
         style={{ transformOrigin: origin }}
-        className={`max-h-full max-w-full select-none rounded-2xl border-2 border-gold/35 object-contain shadow-[0_0_60px_-12px_rgba(212,165,55,0.4),0_30px_80px_-20px_rgba(0,0,0,0.9)] ${
+        className={`max-h-full max-w-full select-none rounded-2xl border-2 border-gold/40 object-contain shadow-[0_0_60px_-12px_rgba(184,134,11,0.35),0_30px_80px_-20px_rgba(57,48,29,0.45)] ${
           zoomed
             ? isDragging
               ? "cursor-grabbing"
@@ -160,7 +160,7 @@ function ImageStage({
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="pointer-events-none absolute bottom-4 start-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-gold/25 bg-[#080706]/85 px-3.5 py-1.5 text-[11px] font-bold text-gold-light backdrop-blur-md"
+          className="pointer-events-none absolute bottom-4 start-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-gold/30 bg-white/90 px-3.5 py-1.5 text-[11px] font-bold text-foreground/75 backdrop-blur-md shadow-lg"
         >
           {zoomed ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
           {zoomed ? "اضغط للتصغير — اسحب للتجول" : "اضغط على الصورة للتكبير"}
@@ -185,7 +185,7 @@ function PdfStage({ fileId, title }: { fileId: number; title: string }) {
         src={fileContentUrl(fileId)}
         title={title}
         onLoad={() => setFrameLoaded(true)}
-        className="h-full w-full border-0 bg-[#141414]"
+        className="h-full w-full border-0 bg-white"
       />
     </>
   );
@@ -212,7 +212,7 @@ function NavButton({
       onClick={onClick}
       aria-label={label}
       title={label}
-      className={`absolute ${pos} top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/35 bg-[#080706]/80 text-gold-light shadow-[0_0_24px_-6px_rgba(212,165,55,0.45)] backdrop-blur-md transition-colors hover:border-gold/60 hover:bg-gold/15 hover:text-gold-light`}
+      className={`absolute ${pos} top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/40 bg-white/90 text-gold-deep shadow-[0_0_24px_-6px_rgba(184,134,11,0.45)] backdrop-blur-md transition-colors hover:border-gold/70 hover:bg-gold/15 hover:text-gold-deep`}
     >
       <Icon className="h-6 w-6" />
     </motion.button>
@@ -267,7 +267,7 @@ export function FileViewer({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-[60] flex flex-col bg-[#080706]/97 backdrop-blur-xl"
+      className="fixed inset-0 z-[60] flex flex-col bg-background/97 backdrop-blur-xl"
       role="dialog"
       aria-modal="true"
       aria-label="عارض الملفات"

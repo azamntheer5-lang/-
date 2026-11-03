@@ -52,7 +52,7 @@ export function TopBar({ onHome, onAdmin, isAdmin }: TopBarProps) {
             <Sparkle className="h-4.5 w-4.5 text-gold" />
           </span>
           <span className="leading-tight">
-            <span className="font-display block text-lg font-bold text-gold-gradient">أم رهام</span>
+            <span className="font-display block text-lg font-bold text-gold-gradient">أم غلا</span>
             <span className="block text-[11px] font-medium text-muted-foreground">
               خدمات طلابية متكاملة
             </span>

@@ -194,7 +194,7 @@ function Dashboard({ onExit }: { onExit: () => void }) {
         </span>
         <div className="flex-1">
           <h1 className="font-display text-xl font-bold text-gold-gradient sm:text-2xl">
-            لوحة تحكم أم رهام
+            لوحة تحكم أم غلا
           </h1>
           <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">
             {publishAvailable

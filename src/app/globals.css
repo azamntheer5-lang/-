@@ -50,43 +50,43 @@
 :root {
   --radius: 0.875rem;
 
-  /* لوحة فخمة: أسود ملكي دافئ + ذهبي */
-  --background: #0b0a08;
-  --foreground: #ece7db;
-  --card: #171410;
-  --card-foreground: #ece7db;
-  --popover: #1c1813;
-  --popover-foreground: #ece7db;
-  --primary: #d4a537;
-  --primary-foreground: #1a1409;
-  --secondary: #211d16;
-  --secondary-foreground: #ece7db;
-  --muted: #1d1a14;
-  --muted-foreground: #b3a98f;
-  --accent: #262117;
-  --accent-foreground: #f0d68a;
-  --destructive: #d9543f;
-  --border: rgba(212, 165, 55, 0.16);
-  --input: rgba(212, 165, 55, 0.22);
-  --ring: #d4a537;
-  --chart-1: #d4a537;
-  --chart-2: #b8860b;
-  --chart-3: #f0d68a;
-  --chart-4: #97772a;
-  --chart-5: #8a6d24;
-  --sidebar: #171410;
-  --sidebar-foreground: #ece7db;
-  --sidebar-primary: #d4a537;
-  --sidebar-primary-foreground: #1a1409;
-  --sidebar-accent: #262117;
-  --sidebar-accent-foreground: #f0d68a;
-  --sidebar-border: rgba(212, 165, 55, 0.16);
-  --sidebar-ring: #d4a537;
+  /* لوحة فخمة فاتحة: عاجي دافئ + ذهبي ملكي */
+  --background: #faf7ee;
+  --foreground: #39301d;
+  --card: #fffdf6;
+  --card-foreground: #39301d;
+  --popover: #fffcf2;
+  --popover-foreground: #39301d;
+  --primary: #b8860b;
+  --primary-foreground: #241c0a;
+  --secondary: #f4eeda;
+  --secondary-foreground: #4a4028;
+  --muted: #f1ead6;
+  --muted-foreground: #857a5c;
+  --accent: #f6efdb;
+  --accent-foreground: #8a6420;
+  --destructive: #c2410c;
+  --border: rgba(184, 134, 11, 0.24);
+  --input: rgba(184, 134, 11, 0.3);
+  --ring: #b8860b;
+  --chart-1: #b8860b;
+  --chart-2: #97772a;
+  --chart-3: #d4a537;
+  --chart-4: #8a6420;
+  --chart-5: #6f5216;
+  --sidebar: #fffdf6;
+  --sidebar-foreground: #39301d;
+  --sidebar-primary: #b8860b;
+  --sidebar-primary-foreground: #241c0a;
+  --sidebar-accent: #f6efdb;
+  --sidebar-accent-foreground: #8a6420;
+  --sidebar-border: rgba(184, 134, 11, 0.24);
+  --sidebar-ring: #b8860b;
 
-  --gold: #d4a537;
-  --gold-light: #f0d68a;
-  --gold-deep: #97772a;
-  --surface: #14110d;
+  --gold: #b8860b;
+  --gold-light: #96741f;
+  --gold-deep: #6f5216;
+  --surface: #f3ecdb;
 }
 
 @layer base {
@@ -101,8 +101,8 @@
     font-family: var(--font-tajawal), "Tajawal", "Segoe UI", system-ui, sans-serif;
   }
   ::selection {
-    background: rgba(212, 165, 55, 0.35);
-    color: #fff8e7;
+    background: rgba(212, 165, 55, 0.4);
+    color: #241c0a;
   }
 }
 
@@ -115,11 +115,11 @@
 .text-gold-gradient {
   background: linear-gradient(
     120deg,
-    #f6e27a 0%,
-    #d4a537 35%,
-    #a87f2a 60%,
-    #f0d68a 85%,
-    #d4a537 100%
+    #b8860b 0%,
+    #d4a537 30%,
+    #96741f 55%,
+    #c9a02e 80%,
+    #8a6420 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -136,8 +136,8 @@
 /* ====== بطاقة زجاجية فاخرة ====== */
 .glass-card {
   position: relative;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012));
-  border: 1px solid rgba(212, 165, 55, 0.15);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.82), rgba(255, 250, 236, 0.5));
+  border: 1px solid rgba(184, 134, 11, 0.2);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -147,7 +147,7 @@
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(150deg, rgba(240, 214, 138, 0.35), rgba(212, 165, 55, 0.06) 30%, transparent 55%);
+  background: linear-gradient(150deg, rgba(212, 165, 55, 0.55), rgba(184, 134, 11, 0.1) 30%, transparent 55%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -156,12 +156,12 @@
 
 /* ====== نقشة أرابيسك خفيفة ====== */
 .bg-arabesque {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23d4a537' stroke-opacity='0.055' stroke-width='1'%3E%3Cpath d='M36 6 L42 30 L66 36 L42 42 L36 66 L30 42 L6 36 L30 30 Z'/%3E%3Ccircle cx='36' cy='36' r='7'/%3E%3Cpath d='M0 0 L12 0 L0 12 Z M72 0 L60 0 L72 12 Z M0 72 L12 72 L0 60 Z M72 72 L60 72 L72 60 Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23b8860b' stroke-opacity='0.09' stroke-width='1'%3E%3Cpath d='M36 6 L42 30 L66 36 L42 42 L36 66 L30 42 L6 36 L30 30 Z'/%3E%3Ccircle cx='36' cy='36' r='7'/%3E%3Cpath d='M0 0 L12 0 L0 12 Z M72 0 L60 0 L72 12 Z M0 72 L12 72 L0 60 Z M72 72 L60 72 L72 60 Z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 /* ====== هالة ذهبية ====== */
 .gold-glow {
-  box-shadow: 0 0 40px rgba(212, 165, 55, 0.18), 0 0 120px rgba(212, 165, 55, 0.07);
+  box-shadow: 0 0 40px rgba(184, 134, 11, 0.25), 0 0 120px rgba(184, 134, 11, 0.1);
 }
 
 /* ====== حركات ====== */
@@ -219,15 +219,15 @@
   height: 9px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(138, 100, 32, 0.06);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(212, 165, 55, 0.28);
+  background: rgba(184, 134, 11, 0.4);
   border-radius: 999px;
-  border: 2px solid #0b0a08;
+  border: 2px solid #faf7ee;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(212, 165, 55, 0.5);
+  background: rgba(184, 134, 11, 0.65);
 }
 .scrollbar-thin::-webkit-scrollbar {
   width: 6px;
@@ -286,9 +286,9 @@
   background: linear-gradient(
     100deg,
     transparent 0%,
-    rgba(246, 226, 122, 0.02) 25%,
-    rgba(250, 240, 200, 0.16) 50%,
-    rgba(246, 226, 122, 0.02) 75%,
+    rgba(255, 255, 255, 0.06) 25%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0.06) 75%,
     transparent 100%
   );
   transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
@@ -310,7 +310,7 @@
   border-radius: inherit;
   background: radial-gradient(
     360px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(240, 214, 138, 0.09),
+    rgba(212, 165, 55, 0.16),
     transparent 55%
   );
   opacity: 0;
@@ -403,15 +403,15 @@
   inset: 0;
   z-index: 70;
   pointer-events: none;
-  opacity: 0.5;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  opacity: 0.28;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
 /* ====== توهج طبقي للعنوان الملكي ====== */
 .royal-title {
-  filter: drop-shadow(0 0 22px rgba(212, 165, 55, 0.28))
-    drop-shadow(0 2px 45px rgba(212, 165, 55, 0.14));
+  filter: drop-shadow(0 0 22px rgba(184, 134, 11, 0.2))
+    drop-shadow(0 2px 45px rgba(184, 134, 11, 0.08));
 }
 
 /* ====== زخارف الزوايا الملكية (أرابيسك) ====== */
@@ -419,14 +419,14 @@
   position: absolute;
   width: 52px;
   height: 52px;
-  border: 1.5px solid rgba(212, 165, 55, 0.4);
+  border: 1.5px solid rgba(184, 134, 11, 0.5);
   pointer-events: none;
 }
 .ornate-corner::after {
   content: "✦";
   position: absolute;
   font-size: 9px;
-  color: rgba(240, 214, 138, 0.75);
+  color: rgba(138, 100, 32, 0.8);
 }
 .ornate-corner-tl {
   top: 10px;
