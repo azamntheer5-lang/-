@@ -32,7 +32,7 @@ export function TopBar({ onHome, onAdmin, isAdmin }: TopBarProps) {
     <header
       className={`sticky top-0 z-40 border-b backdrop-blur-xl transition-all duration-500 ${
         scrolled
-          ? "border-gold/25 bg-background/92 shadow-[0_10px_36px_rgba(212,165,55,0.1)]"
+          ? "border-gold/25 bg-background/92 shadow-[0_10px_36px_rgba(16,185,129,0.1)]"
           : "border-border/60 bg-background/80"
       }`}
     >
@@ -48,7 +48,7 @@ export function TopBar({ onHome, onAdmin, isAdmin }: TopBarProps) {
           className="group flex items-center gap-2.5 text-start"
           aria-label="العودة إلى الرئيسية"
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-gold/30 bg-gradient-to-br from-gold-light/25 to-gold/5 shadow-[0_0_18px_rgba(212,165,55,0.25)]">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-gold/30 bg-gradient-to-br from-gold-light/25 to-gold/5 shadow-[0_0_18px_rgba(16,185,129,0.25)]">
             <Sparkle className="h-4.5 w-4.5 text-gold" />
           </span>
           <span className="leading-tight">

@@ -106,7 +106,7 @@ function ImageStage({
     <div className="relative flex h-full w-full items-center justify-center overflow-hidden p-4 sm:p-8">
       {/* هالة ذهبية خلف الصورة */}
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,165,55,0.10),transparent_62%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.10),transparent_62%)]"
         aria-hidden
       />
 
@@ -145,7 +145,7 @@ function ImageStage({
         }}
         transition={{ opacity: { duration: 0.45 }, default: { type: "spring", stiffness: 260, damping: 30 } }}
         style={{ transformOrigin: origin }}
-        className={`max-h-full max-w-full select-none rounded-2xl border-2 border-gold/40 object-contain shadow-[0_0_60px_-12px_rgba(184,134,11,0.35),0_30px_80px_-20px_rgba(57,48,29,0.45)] ${
+        className={`max-h-full max-w-full select-none rounded-2xl border-2 border-gold/40 object-contain shadow-[0_0_60px_-12px_rgba(4,120,87,0.35),0_30px_80px_-20px_rgba(6,36,26,0.45)] ${
           zoomed
             ? isDragging
               ? "cursor-grabbing"
@@ -212,7 +212,7 @@ function NavButton({
       onClick={onClick}
       aria-label={label}
       title={label}
-      className={`absolute ${pos} top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/40 bg-white/90 text-gold-deep shadow-[0_0_24px_-6px_rgba(184,134,11,0.45)] backdrop-blur-md transition-colors hover:border-gold/70 hover:bg-gold/15 hover:text-gold-deep`}
+      className={`absolute ${pos} top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/40 bg-white/90 text-gold-deep shadow-[0_0_24px_-6px_rgba(4,120,87,0.45)] backdrop-blur-md transition-colors hover:border-gold/70 hover:bg-gold/15 hover:text-gold-deep`}
     >
       <Icon className="h-6 w-6" />
     </motion.button>

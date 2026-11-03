@@ -11,7 +11,7 @@ interface SiteFooterProps {
 
 export function SiteFooter({ onAdmin }: SiteFooterProps) {
   return (
-    <footer className="mt-auto border-t border-gold/20 bg-[#f3ecdb]">
+    <footer className="mt-auto border-t border-gold/20 bg-surface">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <div className="grid gap-8 md:grid-cols-3">
           {/* الهوية */}

@@ -1,6 +1,6 @@
 "use client";
 
-// أزرار عائمة: زر الخروج الذهبي + زر واتساب
+// أزرار عائمة: زر الخروج الزمردي + زر واتساب
 import { motion } from "framer-motion";
 import { LogOut, X } from "lucide-react";
 import { whatsappLink } from "@/lib/client-api";
@@ -32,7 +32,7 @@ export function WhatsAppFloat({ visible }: { visible: boolean }) {
   );
 }
 
-/** زر الخروج العائم الذهبي — يخرجك أينما كنت */
+/** زر الخروج العائم الزمردي — يخرجك أينما كنت */
 export function ExitFloat({
   visible,
   onExit,
@@ -53,8 +53,8 @@ export function ExitFloat({
       title={label}
       className="group fixed bottom-5 right-5 z-[80] flex h-14 w-14 items-center justify-center rounded-full sm:bottom-6 sm:right-6"
       style={{
-        background: "linear-gradient(135deg, #f0d68a 0%, #d4a537 50%, #a87f2a 100%)",
-        boxShadow: "0 10px 30px rgba(212,165,55,0.45), inset 0 1px 0 rgba(255,255,255,0.4)",
+        background: "linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%)",
+        boxShadow: "0 10px 30px rgba(16,185,129,0.45), inset 0 1px 0 rgba(255,255,255,0.4)",
       }}
     >
       {/* هالة ملكية دوّارة */}
@@ -64,9 +64,9 @@ export function ExitFloat({
       />
       <span className="animate-pulse-gold pointer-events-none absolute inset-0 rounded-full" aria-hidden />
       {label === "خروج" ? (
-        <LogOut className="h-6 w-6 text-[#1a1409] transition-transform group-hover:-translate-y-0.5" />
+        <LogOut className="h-6 w-6 text-white transition-transform group-hover:-translate-y-0.5" />
       ) : (
-        <X className="h-6 w-6 text-[#1a1409]" />
+        <X className="h-6 w-6 text-white" />
       )}
       <span className="pointer-events-none absolute end-full me-3 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-gold/25 bg-white/95 px-3 py-1.5 text-xs font-bold text-gold-deep shadow-lg opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 sm:block">
         {label}

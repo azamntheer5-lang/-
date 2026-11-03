@@ -125,7 +125,7 @@ function ServiceDialog({
                     onClick={() => setForm((f) => ({ ...f, icon: key }))}
                     className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-all ${
                       active
-                        ? "border-gold bg-gold/20 text-gold shadow-[0_0_14px_rgba(212,165,55,0.35)]"
+                        ? "border-gold bg-gold/20 text-gold shadow-[0_0_14px_rgba(16,185,129,0.35)]"
                         : "border-border/60 text-muted-foreground hover:border-gold/40 hover:text-gold-light"
                     }`}
                     aria-label={`أيقونة ${key}`}

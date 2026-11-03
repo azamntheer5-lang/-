@@ -90,8 +90,8 @@ function GoldDustCanvas() {
         p.tw += p.tws;
         const alpha = p.a * (0.55 + 0.45 * Math.sin(p.tw));
         const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
-        glow.addColorStop(0, `rgba(246,226,122,${alpha.toFixed(3)})`);
-        glow.addColorStop(1, "rgba(246,226,122,0)");
+        glow.addColorStop(0, `rgba(110,231,183,${alpha.toFixed(3)})`);
+        glow.addColorStop(1, "rgba(110,231,183,0)");
         ctx.fillStyle = glow;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
@@ -204,12 +204,12 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
       <div className="bg-arabesque pointer-events-none absolute inset-0" aria-hidden />
       <div
         className="pointer-events-none absolute -top-40 start-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full opacity-25 blur-[120px]"
-        style={{ background: "radial-gradient(circle, rgba(212,165,55,0.55), transparent 65%)" }}
+        style={{ background: "radial-gradient(circle, rgba(16,185,129,0.55), transparent 65%)" }}
         aria-hidden
       />
       <div
         className="pointer-events-none absolute -bottom-32 -start-24 h-72 w-72 rounded-full opacity-15 blur-[100px]"
-        style={{ background: "radial-gradient(circle, rgba(212,165,55,0.5), transparent 65%)" }}
+        style={{ background: "radial-gradient(circle, rgba(16,185,129,0.5), transparent 65%)" }}
         aria-hidden
       />
 
@@ -220,9 +220,9 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="shine-sweep mx-auto mb-6 inline-flex items-center gap-2.5 rounded-full border border-gold/40 bg-gradient-to-l from-gold/15 via-gold/8 to-gold/15 px-5 py-2 text-sm font-medium text-gold-light shadow-[0_4px_28px_rgba(212,165,55,0.25)] lg:mx-0"
+            className="shine-sweep mx-auto mb-6 inline-flex items-center gap-2.5 rounded-full border border-gold/40 bg-gradient-to-l from-gold/15 via-gold/8 to-gold/15 px-5 py-2 text-sm font-medium text-gold-light shadow-[0_4px_28px_rgba(16,185,129,0.25)] lg:mx-0"
           >
-            <span className="animate-breathe flex h-7 w-7 items-center justify-center rounded-full border border-gold/40 bg-gradient-to-br from-gold-light/30 to-gold/10 shadow-[0_0_16px_rgba(212,165,55,0.5)]">
+            <span className="animate-breathe flex h-7 w-7 items-center justify-center rounded-full border border-gold/40 bg-gradient-to-br from-gold-light/30 to-gold/10 shadow-[0_0_16px_rgba(16,185,129,0.5)]">
               <Crown className="h-4.5 w-4.5 text-gold-light" />
             </span>
             منصة ملكية للخدمات الطلابية — تدعم طالبك من الألف إلى الياء
@@ -326,7 +326,7 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
           />
           <div
             className="pointer-events-none absolute inset-0 blur-2xl"
-            style={{ background: "radial-gradient(circle at 50% 30%, rgba(212,165,55,0.35), transparent 60%)" }}
+            style={{ background: "radial-gradient(circle at 50% 30%, rgba(16,185,129,0.35), transparent 60%)" }}
             aria-hidden
           />
 
@@ -448,18 +448,18 @@ function ServicesGrid({ onOpenService }: { onOpenService: (id: number) => void }
             transition={{ duration: 0.5, delay: (i % 4) * 0.08 }}
             onClick={() => onOpenService(service.id)}
             onMouseMove={handleSpotlight}
-            className="glass-card shine-sweep luxury-card ring-royal group relative overflow-hidden rounded-3xl p-6 text-start transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/45 hover:shadow-[0_18px_50px_-12px_rgba(212,165,55,0.28)]"
+            className="glass-card shine-sweep luxury-card ring-royal group relative overflow-hidden rounded-3xl p-6 text-start transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/45 hover:shadow-[0_18px_50px_-12px_rgba(16,185,129,0.28)]"
           >
             {/* لمعة الخلفية عند التحويم */}
             <div
               className="pointer-events-none absolute -top-16 -end-16 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
-              style={{ background: "radial-gradient(circle, rgba(212,165,55,0.35), transparent 70%)" }}
+              style={{ background: "radial-gradient(circle, rgba(16,185,129,0.35), transparent 70%)" }}
               aria-hidden
             />
 
             <div className="relative z-[2]">
               <div className="mb-4 flex items-start justify-between">
-                <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/25 bg-gradient-to-br from-gold-light/20 to-gold/5 shadow-[0_8px_24px_rgba(212,165,55,0.15)] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/25 bg-gradient-to-br from-gold-light/20 to-gold/5 shadow-[0_8px_24px_rgba(16,185,129,0.15)] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                   <Icon className="animate-breathe h-7 w-7 text-gold" />
                 </span>
                 {service.filesCount > 0 && (
