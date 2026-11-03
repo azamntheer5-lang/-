@@ -51,11 +51,7 @@ export function ExitFloat({
       onClick={onExit}
       aria-label={label}
       title={label}
-      className="group fixed bottom-5 right-5 z-[80] flex h-14 w-14 items-center justify-center rounded-full sm:bottom-6 sm:right-6"
-      style={{
-        background: "linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%)",
-        boxShadow: "0 10px 30px rgba(16,185,129,0.45), inset 0 1px 0 rgba(255,255,255,0.4)",
-      }}
+      className="exit-float-btn group fixed bottom-5 right-5 z-[80] flex h-14 w-14 items-center justify-center rounded-full sm:bottom-6 sm:right-6"
     >
       {/* هالة ملكية دوّارة */}
       <span

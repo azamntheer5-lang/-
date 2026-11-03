@@ -48,3 +48,9 @@ model SiteImage {
   service    Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
   createdAt  DateTime @default(now())
 }
+
+// إعدادات عامة للموقع (مفتاح/قيمة) — مثل لون الهوية الحالي
+model Setting {
+  key   String @id
+  value String
+}

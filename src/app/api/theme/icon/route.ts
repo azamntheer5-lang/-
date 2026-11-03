@@ -1,0 +1,37 @@
+import { db } from "@/lib/db";
+import { DEFAULT_THEME_ID, THEME_SETTING_KEY, findTheme } from "@/lib/themes";
+
+/** أيقونة الموقع SVG ديناميكية — تتبع لون الهوية المختار */
+export async function GET() {
+  let theme = findTheme(DEFAULT_THEME_ID);
+  try {
+    const row = await db.setting.findUnique({ where: { key: THEME_SETTING_KEY } });
+    if (row?.value) theme = findTheme(row.value);
+  } catch {
+    // الافتراضي
+  }
+
+  const main = theme.vars["--gold"];
+  const deep = theme.vars["--gold-deep"];
+  const bright = theme.vars["--gold-bright"];
+  const bg = theme.vars["--background"];
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${bright}"/>
+      <stop offset="1" stop-color="${deep}"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="${bg}"/>
+  <path d="M32 8 L38 26 L56 32 L38 38 L32 56 L26 38 L8 32 L26 26 Z" fill="none" stroke="url(#g)" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="32" cy="32" r="5" fill="${main}"/>
+</svg>`;
+
+  return new Response(svg, {
+    headers: {
+      "Content-Type": "image/svg+xml",
+      "Cache-Control": "public, max-age=300",
+    },
+  });
+}

@@ -1,9 +1,10 @@
 "use client";
 
-// الشريط العلوي: الهوية + روابط سريعة + زر دخول المشرف
+// الشريط العلوي: الهوية + روابط سريعة + منتقي الألوان + زر دخول المشرف
 import { Lock, Sparkle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { ThemePicker } from "./theme-picker";
 
 interface TopBarProps {
   onHome: () => void;
@@ -32,7 +33,7 @@ export function TopBar({ onHome, onAdmin, isAdmin }: TopBarProps) {
     <header
       className={`sticky top-0 z-40 border-b backdrop-blur-xl transition-all duration-500 ${
         scrolled
-          ? "border-gold/25 bg-background/92 shadow-[0_10px_36px_rgba(16,185,129,0.1)]"
+          ? "border-gold/25 bg-background/92 shadow-topbar-scrolled"
           : "border-border/60 bg-background/80"
       }`}
     >
@@ -48,7 +49,7 @@ export function TopBar({ onHome, onAdmin, isAdmin }: TopBarProps) {
           className="group flex items-center gap-2.5 text-start"
           aria-label="العودة إلى الرئيسية"
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-gold/30 bg-gradient-to-br from-gold-light/25 to-gold/5 shadow-[0_0_18px_rgba(16,185,129,0.25)]">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-gold/30 bg-gradient-to-br from-gold-light/25 to-gold/5 shadow-logo-chip">
             <Sparkle className="h-4.5 w-4.5 text-gold" />
           </span>
           <span className="leading-tight">
@@ -72,20 +73,23 @@ export function TopBar({ onHome, onAdmin, isAdmin }: TopBarProps) {
           ))}
         </nav>
 
-        {/* زر المشرف */}
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onAdmin}
-          aria-label="لوحة التحكم"
-          title="لوحة التحكم"
-          className={`gap-1.5 rounded-xl text-muted-foreground hover:text-gold-light ${
-            isAdmin ? "border border-gold/40 text-gold" : ""
-          }`}
-        >
-          <Lock className="h-4 w-4" />
-          <span className="hidden sm:inline text-xs">{isAdmin ? "المشرف متصل" : "التحكم"}</span>
-        </Button>
+        {/* منتقي الألوان + زر المشرف */}
+        <div className="flex items-center gap-1">
+          <ThemePicker isAdmin={isAdmin} />
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onAdmin}
+            aria-label="لوحة التحكم"
+            title="لوحة التحكم"
+            className={`gap-1.5 rounded-xl text-muted-foreground hover:text-gold-light ${
+              isAdmin ? "border border-gold/40 text-gold" : ""
+            }`}
+          >
+            <Lock className="h-4 w-4" />
+            <span className="hidden sm:inline text-xs">{isAdmin ? "المشرف متصل" : "التحكم"}</span>
+          </Button>
+        </div>
       </div>
     </header>
   );

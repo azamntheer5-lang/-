@@ -77,7 +77,7 @@ function FileCard({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.94 }}
       transition={{ duration: 0.35 }}
-      className="glass-card group relative flex flex-col rounded-3xl p-5 transition-all duration-300 hover:-translate-y-1 hover:border-gold/45 hover:shadow-[0_16px_44px_-14px_rgba(16,185,129,0.3)]"
+      className="glass-card group relative flex flex-col rounded-3xl p-5 transition-all duration-300 hover:-translate-y-1 hover:border-gold/45 card-hover-glow"
     >
       {isImage(file.mimeType) ? (
         /* بطاقة صورة: معاينة حقيقية أعلى البطاقة */

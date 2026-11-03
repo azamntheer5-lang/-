@@ -87,8 +87,16 @@
   --gold: #047857;
   --gold-light: #059669;
   --gold-deep: #065f46;
+  --gold-bright: #10b981;
+  --gold-pale: #6ee7b7;
+  --gold-tint: #d1fae5;
   --surface: #eaf5ef;
 }
+
+/* ============================================================
+   ✦ التدرجات والظلال تعتمد كلياً على متغيرات الهوية
+   حتى تتبدل كل الألوان لحظياً عند تغيير اللوحة ✦
+   ============================================================ */
 
 @layer base {
   * {
@@ -102,8 +110,8 @@
     font-family: var(--font-tajawal), "Tajawal", "Segoe UI", system-ui, sans-serif;
   }
   ::selection {
-    background: rgba(16, 185, 129, 0.32);
-    color: #053b2a;
+    background: color-mix(in srgb, var(--gold-bright) 32%, transparent);
+    color: var(--gold-deep);
   }
 }
 
@@ -116,11 +124,11 @@
 .text-gold-gradient {
   background: linear-gradient(
     120deg,
-    #047857 0%,
-    #10b981 30%,
-    #059669 55%,
-    #34d399 80%,
-    #065f46 100%
+    var(--gold) 0%,
+    var(--gold-bright) 30%,
+    var(--gold-light) 55%,
+    var(--gold-pale) 80%,
+    var(--gold-deep) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -137,8 +145,8 @@
 /* ====== بطاقة زجاجية فاخرة ====== */
 .glass-card {
   position: relative;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.85), rgba(240, 253, 246, 0.5));
-  border: 1px solid rgba(4, 120, 87, 0.16);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.85), color-mix(in srgb, var(--gold-tint) 55%, transparent));
+  border: 1px solid color-mix(in srgb, var(--gold) 16%, transparent);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -148,21 +156,24 @@
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(150deg, rgba(16, 185, 129, 0.5), rgba(4, 120, 87, 0.08) 30%, transparent 55%);
+  background: linear-gradient(150deg, color-mix(in srgb, var(--gold-bright) 50%, transparent), color-mix(in srgb, var(--gold) 8%, transparent) 30%, transparent 55%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
 }
 
-/* ====== نقشة أرابيسك خفيفة ====== */
+/* ====== نقشة أرابيسك خفيفة (قناع + لون الهوية) ====== */
 .bg-arabesque {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23047857' stroke-opacity='0.08' stroke-width='1'%3E%3Cpath d='M36 6 L42 30 L66 36 L42 42 L36 66 L30 42 L6 36 L30 30 Z'/%3E%3Ccircle cx='36' cy='36' r='7'/%3E%3Cpath d='M0 0 L12 0 L0 12 Z M72 0 L60 0 L72 12 Z M0 72 L12 72 L0 60 Z M72 72 L60 72 L72 60 Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-color: color-mix(in srgb, var(--gold) 9%, transparent);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M36 6 L42 30 L66 36 L42 42 L36 66 L30 42 L6 36 L30 30 Z'/%3E%3Ccircle cx='36' cy='36' r='7'/%3E%3Cpath d='M0 0 L12 0 L0 12 Z M72 0 L60 0 L72 12 Z M0 72 L12 72 L0 60 Z M72 72 L60 72 L72 60 Z'/%3E%3C/g%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M36 6 L42 30 L66 36 L42 42 L36 66 L30 42 L6 36 L30 30 Z'/%3E%3Ccircle cx='36' cy='36' r='7'/%3E%3Cpath d='M0 0 L12 0 L0 12 Z M72 0 L60 0 L72 12 Z M0 72 L12 72 L0 60 Z M72 72 L60 72 L72 60 Z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* ====== هالة زمردية ====== */
+/* ====== هالة بلون الهوية ====== */
 .gold-glow {
-  box-shadow: 0 0 40px rgba(5, 150, 105, 0.25), 0 0 120px rgba(5, 150, 105, 0.1);
+  box-shadow: 0 0 40px color-mix(in srgb, var(--gold-bright) 25%, transparent),
+    0 0 120px color-mix(in srgb, var(--gold-bright) 10%, transparent);
 }
 
 /* ====== حركات ====== */
@@ -204,10 +215,10 @@
 @keyframes pulse-gold {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold-bright) 45%, transparent);
   }
   50% {
-    box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
+    box-shadow: 0 0 0 12px transparent;
   }
 }
 .animate-pulse-gold {
@@ -220,31 +231,33 @@
   height: 9px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(6, 95, 70, 0.05);
+  background: color-mix(in srgb, var(--gold) 5%, transparent);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(4, 120, 87, 0.35);
+  background: color-mix(in srgb, var(--gold) 35%, transparent);
   border-radius: 999px;
-  border: 2px solid #f7faf8;
+  border: 2px solid var(--background);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(4, 120, 87, 0.6);
+  background: color-mix(in srgb, var(--gold) 60%, transparent);
 }
 .scrollbar-thin::-webkit-scrollbar {
   width: 6px;
 }
 
-/* ====== زر زمردي متدرج ====== */
+/* ====== زر الهوية المتدرج ====== */
 .btn-gold {
-  background: linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%);
-  color: #ffffff;
-  border: 1px solid rgba(110, 231, 183, 0.4);
-  box-shadow: 0 4px 18px rgba(5, 150, 105, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-deep) 100%);
+  color: var(--primary-foreground);
+  border: 1px solid color-mix(in srgb, var(--gold-pale) 45%, transparent);
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--gold-bright) 32%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
   transition: all 0.25s ease;
 }
 .btn-gold:hover {
   filter: brightness(1.1);
-  box-shadow: 0 6px 28px rgba(5, 150, 105, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 6px 28px color-mix(in srgb, var(--gold-bright) 45%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
   transform: translateY(-1px);
 }
 .btn-gold:active {
@@ -254,7 +267,7 @@
 /* ====== خط زخرفي للعناوين ====== */
 .ornament-line {
   height: 1px;
-  background: linear-gradient(to left, transparent, rgba(16, 185, 129, 0.55), transparent);
+  background: linear-gradient(to left, transparent, color-mix(in srgb, var(--gold-bright) 55%, transparent), transparent);
 }
 
 /* ====== فريم الصورة (قوس إسلامي) ====== */
@@ -311,7 +324,7 @@
   border-radius: inherit;
   background: radial-gradient(
     360px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(16, 185, 129, 0.15),
+    color-mix(in srgb, var(--gold-bright) 15%, transparent),
     transparent 55%
   );
   opacity: 0;
@@ -341,10 +354,10 @@
   background: conic-gradient(
     from var(--ring-angle),
     transparent 0%,
-    rgba(110, 231, 183, 0.9) 12%,
-    rgba(16, 185, 129, 0.18) 30%,
+    var(--gold-pale) 12%,
+    color-mix(in srgb, var(--gold-bright) 18%, transparent) 30%,
     transparent 50%,
-    rgba(52, 211, 153, 0.6) 78%,
+    color-mix(in srgb, var(--gold-bright) 60%, transparent) 78%,
     transparent 95%
   );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -411,8 +424,8 @@
 
 /* ====== توهج طبقي للعنوان الملكي ====== */
 .royal-title {
-  filter: drop-shadow(0 0 22px rgba(4, 120, 87, 0.22))
-    drop-shadow(0 2px 45px rgba(4, 120, 87, 0.08));
+  filter: drop-shadow(0 0 22px color-mix(in srgb, var(--gold) 22%, transparent))
+    drop-shadow(0 2px 45px color-mix(in srgb, var(--gold) 8%, transparent));
 }
 
 /* ====== زخارف الزوايا الملكية (أرابيسك) ====== */
@@ -420,14 +433,14 @@
   position: absolute;
   width: 52px;
   height: 52px;
-  border: 1.5px solid rgba(4, 120, 87, 0.45);
+  border: 1.5px solid color-mix(in srgb, var(--gold) 45%, transparent);
   pointer-events: none;
 }
 .ornate-corner::after {
   content: "✦";
   position: absolute;
   font-size: 9px;
-  color: rgba(6, 95, 70, 0.85);
+  color: color-mix(in srgb, var(--gold-deep) 85%, transparent);
 }
 .ornate-corner-tl {
   top: 10px;
@@ -488,7 +501,7 @@
   animation: soft-breathe 3.6s ease-in-out infinite;
 }
 
-/* ====== شريط زمردي فاصل مع لمعان متحرك ====== */
+/* ====== شريط الهوية الفاصل مع لمعان متحرك ====== */
 .gold-divider {
   position: relative;
   height: 1px;
@@ -496,9 +509,9 @@
   background: linear-gradient(
     to left,
     transparent,
-    rgba(16, 185, 129, 0.18) 20%,
-    rgba(110, 231, 183, 0.9) 50%,
-    rgba(16, 185, 129, 0.18) 80%,
+    color-mix(in srgb, var(--gold-bright) 18%, transparent) 20%,
+    var(--gold-pale) 50%,
+    color-mix(in srgb, var(--gold-bright) 18%, transparent) 80%,
     transparent
   );
 }
@@ -510,7 +523,7 @@
   width: 60px;
   height: 4px;
   border-radius: 99px;
-  background: linear-gradient(90deg, transparent, rgba(220, 252, 236, 0.95), transparent);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--gold-tint) 95%, transparent), transparent);
   animation: divider-run 4.5s ease-in-out infinite;
   filter: blur(0.5px);
 }
@@ -534,6 +547,71 @@
     left: calc(100% - 60px);
     opacity: 0;
   }
+}
+
+/* ============================================================
+   ✦ ظلال وتوهجات ديناميكية (تتبع لون الهوية المختار) ✦
+   ============================================================ */
+
+.shadow-topbar-scrolled {
+  box-shadow: 0 10px 36px color-mix(in srgb, var(--gold-bright) 10%, transparent);
+}
+.shadow-logo-chip {
+  box-shadow: 0 0 18px color-mix(in srgb, var(--gold-bright) 25%, transparent);
+}
+.shadow-hero-badge {
+  box-shadow: 0 4px 28px color-mix(in srgb, var(--gold-bright) 26%, transparent);
+}
+.shadow-crown-chip {
+  box-shadow: 0 0 16px color-mix(in srgb, var(--gold-bright) 50%, transparent);
+}
+.shadow-icon-tile {
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--gold-bright) 16%, transparent);
+}
+.shadow-active-chip {
+  box-shadow: 0 0 14px color-mix(in srgb, var(--gold-bright) 35%, transparent);
+}
+.card-hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+.card-hover-glow:hover,
+.card-hover-glow:focus-visible {
+  box-shadow: 0 18px 50px -12px color-mix(in srgb, var(--gold-bright) 30%, transparent);
+}
+.shadow-viewer-img {
+  box-shadow: 0 0 60px -12px color-mix(in srgb, var(--gold) 35%, transparent),
+    0 30px 80px -20px rgba(10, 12, 10, 0.45);
+}
+.shadow-viewer-nav {
+  box-shadow: 0 0 24px -6px color-mix(in srgb, var(--gold) 45%, transparent);
+}
+.viewer-backdrop-glow {
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--gold-bright) 10%, transparent),
+    transparent 62%
+  );
+}
+.glow-hero-top {
+  background: radial-gradient(circle, color-mix(in srgb, var(--gold-bright) 55%, transparent), transparent 65%);
+}
+.glow-hero-bottom {
+  background: radial-gradient(circle, color-mix(in srgb, var(--gold-bright) 50%, transparent), transparent 65%);
+}
+.glow-arch {
+  background: radial-gradient(
+    circle at 50% 30%,
+    color-mix(in srgb, var(--gold-bright) 35%, transparent),
+    transparent 60%
+  );
+}
+.glow-card-hover {
+  background: radial-gradient(circle, color-mix(in srgb, var(--gold-bright) 35%, transparent), transparent 70%);
+}
+.exit-float-btn {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-deep) 100%);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--gold-bright) 45%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 /* ====== احترام تفضيل تقليل الحركة ====== */

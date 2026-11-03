@@ -91,6 +91,37 @@ export function usePublishStatus() {
   });
 }
 
+/* ================= نظام ألوان الهوية ================= */
+
+/** لون الهوية المحفوظ للجميع (من الخادم) */
+export function useSiteTheme() {
+  return useQuery({
+    queryKey: ["site-theme"],
+    queryFn: () => apiFetch<{ themeId: string }>("/api/theme"),
+    staleTime: 60_000,
+    retry: 1,
+  });
+}
+
+/** تطبيق لوحة ألوان فوراً على الصفحة (متغيرات CSS على :root) */
+export function applySiteTheme(themeId: string) {
+  const map = (window as unknown as { __SITE_THEMES__?: Record<string, string> }).__SITE_THEMES__;
+  const css = map?.[themeId];
+  if (css) {
+    document.documentElement.style.cssText = css;
+  }
+  // إشعار العناصر الحيّة (غبار الهوية، إلخ) ليعيد قراءة الألوان
+  window.dispatchEvent(new CustomEvent("site-theme-changed"));
+}
+
+/** حفظ لون الهوية للجميع (مشرفة فقط) */
+export async function saveSiteTheme(themeId: string) {
+  return apiFetch<{ ok: boolean; themeId: string }>("/api/admin/theme", {
+    method: "POST",
+    body: JSON.stringify({ themeId }),
+  });
+}
+
 export interface PublishResultDTO {
   ok: boolean;
   published: boolean;
