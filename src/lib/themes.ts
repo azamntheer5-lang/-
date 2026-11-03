@@ -12,6 +12,36 @@ export interface SiteTheme {
 
 export const THEMES: SiteTheme[] = [
   {
+    id: "forest",
+    name: "غابي فاخر",
+    vars: {
+      "--background": "#f2ede0",
+      "--foreground": "#33392c",
+      "--card": "#faf6ec",
+      "--card-foreground": "#33392c",
+      "--popover": "#faf6ec",
+      "--popover-foreground": "#33392c",
+      "--primary": "#1e4634",
+      "--primary-foreground": "#f7f3e8",
+      "--secondary": "#e8e0ce",
+      "--secondary-foreground": "#1e4634",
+      "--muted": "#ece5d3",
+      "--muted-foreground": "#6f6d58",
+      "--accent": "#e3cd9e",
+      "--accent-foreground": "#142e22",
+      "--border": "rgba(30, 70, 52, 0.2)",
+      "--input": "rgba(30, 70, 52, 0.28)",
+      "--ring": "#2d5c44",
+      "--gold": "#1e4634",
+      "--gold-light": "#2d5c44",
+      "--gold-deep": "#142e22",
+      "--gold-bright": "#c9a96a",
+      "--gold-pale": "#e3cd9e",
+      "--gold-tint": "#ece3cc",
+      "--surface": "#e8e0ce",
+    },
+  },
+  {
     id: "emerald",
     name: "زمرد فاخر",
     vars: {
@@ -253,7 +283,7 @@ export const THEMES: SiteTheme[] = [
   },
 ];
 
-export const DEFAULT_THEME_ID = "emerald";
+export const DEFAULT_THEME_ID = "forest";
 export const THEME_SETTING_KEY = "siteTheme";
 
 /** البحث عن لوحة بالمعرّف (مع رجوع لللوحة الافتراضية) */

@@ -50,47 +50,47 @@
 :root {
   --radius: 0.875rem;
 
-  /* لوحة فخمة فاتحة: أبيض نقي + أخضر زمردي ملكي */
-  --background: #f7faf8;
-  --foreground: #0d2418;
-  --card: #ffffff;
-  --card-foreground: #0d2418;
-  --popover: #ffffff;
-  --popover-foreground: #0d2418;
-  --primary: #047857;
-  --primary-foreground: #ffffff;
-  --secondary: #e9f4ee;
-  --secondary-foreground: #14503a;
-  --muted: #eff6f1;
-  --muted-foreground: #5b7064;
-  --accent: #e3f4ea;
-  --accent-foreground: #065f46;
+  /* لوحة «غابي فاخر» من هوية أم غلا: كريمي + أخضر غابي عميق + ذهبي شامبين */
+  --background: #f2ede0;
+  --foreground: #33392c;
+  --card: #faf6ec;
+  --card-foreground: #33392c;
+  --popover: #faf6ec;
+  --popover-foreground: #33392c;
+  --primary: #1e4634;
+  --primary-foreground: #f7f3e8;
+  --secondary: #e8e0ce;
+  --secondary-foreground: #1e4634;
+  --muted: #ece5d3;
+  --muted-foreground: #6f6d58;
+  --accent: #e3cd9e;
+  --accent-foreground: #142e22;
   --destructive: #dc2626;
-  --border: rgba(4, 120, 87, 0.18);
-  --input: rgba(4, 120, 87, 0.25);
-  --ring: #059669;
-  --chart-1: #059669;
-  --chart-2: #047857;
-  --chart-3: #10b981;
-  --chart-4: #065f46;
-  --chart-5: #064e3b;
-  --sidebar: #ffffff;
-  --sidebar-foreground: #0d2418;
-  --sidebar-primary: #047857;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e3f4ea;
-  --sidebar-accent-foreground: #065f46;
-  --sidebar-border: rgba(4, 120, 87, 0.18);
-  --sidebar-ring: #059669;
+  --border: rgba(30, 70, 52, 0.2);
+  --input: rgba(30, 70, 52, 0.28);
+  --ring: #2d5c44;
+  --chart-1: #1e4634;
+  --chart-2: #2d5c44;
+  --chart-3: #c9a96a;
+  --chart-4: #4a5d3a;
+  --chart-5: #b8934f;
+  --sidebar: #faf6ec;
+  --sidebar-foreground: #33392c;
+  --sidebar-primary: #1e4634;
+  --sidebar-primary-foreground: #f7f3e8;
+  --sidebar-accent: #e3cd9e;
+  --sidebar-accent-foreground: #142e22;
+  --sidebar-border: rgba(30, 70, 52, 0.2);
+  --sidebar-ring: #2d5c44;
 
-  /* الأخضر الزمردي الملكي (ألوان الهوية) */
-  --gold: #047857;
-  --gold-light: #059669;
-  --gold-deep: #065f46;
-  --gold-bright: #10b981;
-  --gold-pale: #6ee7b7;
-  --gold-tint: #d1fae5;
-  --surface: #eaf5ef;
+  /* الأخضر الغابي العميق + الذهبي الشامبين (ألوان هوية أم غلا) */
+  --gold: #1e4634;
+  --gold-light: #2d5c44;
+  --gold-deep: #142e22;
+  --gold-bright: #c9a96a;
+  --gold-pale: #e3cd9e;
+  --gold-tint: #ece3cc;
+  --surface: #e8e0ce;
 }
 
 /* ============================================================
@@ -120,14 +120,14 @@
   font-family: var(--font-amiri), "Amiri", "Times New Roman", serif;
 }
 
-/* ====== نص متدرج زمردي ====== */
+/* ====== نص متدرج: أخضر غابي مع لمعان ذهبي شامبين ====== */
 .text-gold-gradient {
   background: linear-gradient(
     120deg,
     var(--gold) 0%,
-    var(--gold-bright) 30%,
-    var(--gold-light) 55%,
-    var(--gold-pale) 80%,
+    var(--gold-light) 28%,
+    var(--gold-bright) 50%,
+    var(--gold-light) 72%,
     var(--gold-deep) 100%
   );
   -webkit-background-clip: text;
