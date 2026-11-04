@@ -117,9 +117,6 @@ export default function UmGhalaPlatform() {
           />
         )}
       </AnimatePresence>
-
-      {/* ملمس مخملي فاخر فوق كامل الصفحة */}
-      <div className="grain-overlay" aria-hidden />
     </div>
   );
 }

@@ -135,13 +135,11 @@
   color: transparent;
 }
 
-/* ====== بطاقة زجاجية فاخرة ====== */
+/* ====== بطاقة زجاجية فاخرة — خلفية صلبة (بلا backdrop-filter: يسبب فساد العرض على الجوال) ====== */
 .glass-card {
   position: relative;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.85), color-mix(in srgb, var(--gold-tint) 55%, transparent));
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.92), color-mix(in srgb, var(--gold-tint) 62%, #ffffff));
   border: 1px solid color-mix(in srgb, var(--gold) 16%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
 }
 .glass-card::before {
   content: "";
@@ -327,16 +325,7 @@
 
 /* ====== لمعة تجتاح الأزرار عند التحويم فقط — بلا تكرار لانهائي ====== */
 
-/* ====== ملمس مخملي (حبيبات فاخرة فوق محتوى الصفحة — تحت العارض والنوافذ) ====== */
-.grain-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 30;
-  pointer-events: none;
-  opacity: 0.28;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-}
+/* ====== ملمس مخملي — أُزيل نهائيًا (mix-blend-mode يفسد العرض على متصفحات الجوال: تشويش رمادي ونصوص شبحية) ====== */
 
 /* ====== توهج طبقي للعنوان الملكي ====== */
 .royal-title {

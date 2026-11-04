@@ -24,7 +24,7 @@ export function WhatsAppFloat({ visible }: { visible: boolean }) {
           <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.85 5.82 2.41a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24a8.24 8.24 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24M8.4 7.26c-.18 0-.46.07-.7.31-.24.25-.92.9-.92 2.19s.94 2.54 1.07 2.72c.13.17 1.82 2.9 4.5 3.93 2.22.87 2.67.7 3.15.65.48-.04 1.55-.63 1.77-1.25.22-.61.22-1.14.15-1.25-.06-.11-.24-.17-.5-.3-.26-.13-1.55-.76-1.79-.85-.24-.09-.42-.13-.59.13-.17.26-.68.85-.83 1.02-.15.18-.3.2-.55.07-.26-.13-1.1-.4-2.08-1.29-.77-.68-1.29-1.53-1.44-1.79-.15-.26-.02-.4.11-.53.13-.13.29-.33.44-.5.15-.17.2-.28.3-.48.09-.19.04-.36-.02-.5-.06-.13-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43l-.48-.01z" />
         </svg>
       </span>
-      <span className="pointer-events-none absolute start-full ms-3 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-gold/25 bg-white/95 px-3 py-1.5 text-xs font-bold text-gold-deep shadow-lg opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 sm:block">
+      <span className="pointer-events-none absolute start-full ms-3 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-gold/25 bg-white px-3 py-1.5 text-xs font-bold text-gold-deep shadow-lg opacity-0 transition-opacity group-hover:opacity-100 sm:block">
         تواصل واتساب
       </span>
     </motion.a>
@@ -58,7 +58,7 @@ export function ExitFloat({
       ) : (
         <X className="h-6 w-6 text-white" />
       )}
-      <span className="pointer-events-none absolute end-full me-3 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-gold/25 bg-white/95 px-3 py-1.5 text-xs font-bold text-gold-deep shadow-lg opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 sm:block">
+      <span className="pointer-events-none absolute end-full me-3 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-gold/25 bg-white px-3 py-1.5 text-xs font-bold text-gold-deep shadow-lg opacity-0 transition-opacity group-hover:opacity-100 sm:block">
         {label}
       </span>
     </motion.button>

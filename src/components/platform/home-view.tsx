@@ -374,7 +374,7 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
                 aria-hidden
               />
               <div className="absolute bottom-4 start-1/2 w-max -translate-x-1/2">
-                <span className="font-display rounded-full border border-gold/40 bg-white/85 px-5 py-1.5 text-lg font-bold text-gold-deep backdrop-blur-md">
+                <span className="font-display rounded-full border border-gold/40 bg-white px-5 py-1.5 text-lg font-bold text-gold-deep">
                   أم غلا ✦ بخدماتها ترتقي
                 </span>
               </div>
@@ -556,7 +556,7 @@ function GallerySection() {
       {/* العارض المكبّر */}
       {lightbox && (
         <div
-          className="fixed inset-0 z-[90] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[90] flex items-center justify-center bg-black/90 p-4"
           onClick={() => setLightbox(null)}
           role="dialog"
           aria-modal="true"

@@ -246,7 +246,7 @@ export function GalleryManager() {
                 />
                 <button
                   onClick={() => setDeletingId(img.id)}
-                  className="absolute top-2 end-2 rounded-xl bg-black/70 p-2 text-destructive opacity-0 backdrop-blur transition-opacity hover:bg-destructive/90 hover:text-white group-hover:opacity-100"
+                  className="absolute top-2 end-2 rounded-xl bg-black/70 p-2 text-destructive opacity-0 transition-opacity hover:bg-destructive/90 hover:text-white group-hover:opacity-100"
                   aria-label="حذف الصورة"
                   title="حذف الصورة"
                 >

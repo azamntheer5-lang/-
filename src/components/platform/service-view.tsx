@@ -96,7 +96,7 @@ function FileCard({
               loading="lazy"
               className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
             />
-            <span className="absolute start-2.5 top-2.5 inline-flex items-center gap-1 rounded-full border border-gold/40 bg-white/90 px-2.5 py-1 text-[10px] font-bold text-gold-deep backdrop-blur-sm">
+            <span className="absolute start-2.5 top-2.5 inline-flex items-center gap-1 rounded-full border border-gold/40 bg-white px-2.5 py-1 text-[10px] font-bold text-gold-deep">
               <ImageIcon className="h-3 w-3" />
               صورة
             </span>

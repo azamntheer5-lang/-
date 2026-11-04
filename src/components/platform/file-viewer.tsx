@@ -143,7 +143,7 @@ function ImageStage({
 
       {/* مؤشر التكبير — شارة ثابتة بلا حركة */}
       {loaded && (
-        <span className="pointer-events-none absolute bottom-4 start-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-gold/30 bg-white/90 px-3.5 py-1.5 text-[11px] font-bold text-foreground/75 backdrop-blur-md shadow-lg">
+        <span className="pointer-events-none absolute bottom-4 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-gold/30 bg-white px-3.5 py-1.5 text-[11px] font-bold text-foreground/75 shadow-lg">
           {zoomed ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
           {zoomed ? "اضغط للتصغير — اسحب للتجول" : "اضغط على الصورة للتكبير"}
         </span>
@@ -194,7 +194,7 @@ function NavButton({
       onClick={onClick}
       aria-label={label}
       title={label}
-      className={`absolute ${pos} top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/40 bg-white/90 text-gold-deep shadow-viewer-nav backdrop-blur-md transition-colors hover:border-gold/70 hover:bg-gold/15 hover:text-gold-deep`}
+      className={`absolute ${pos} top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-gold/40 bg-white text-gold-deep shadow-viewer-nav transition-colors hover:border-gold/70 hover:bg-gold/15 hover:text-gold-deep`}
     >
       <Icon className="h-6 w-6" />
     </motion.button>
@@ -249,13 +249,13 @@ export function FileViewer({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-[60] flex flex-col bg-background/97 backdrop-blur-xl"
+      className="fixed inset-0 z-[60] flex flex-col bg-background"
       role="dialog"
       aria-modal="true"
       aria-label="عارض الملفات"
     >
       {/* الترويسة */}
-      <div className="border-b border-border/60 bg-background/70 backdrop-blur-xl">
+      <div className="border-b border-border/60 bg-background">
         <div className="mx-auto flex max-w-[1400px] flex-wrap items-center gap-3 px-4 py-3 sm:px-6">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-gold/25 bg-gold/10">
             {isImage ? (
@@ -376,7 +376,7 @@ export function FileViewer({
 
       {/* شريط المعلومات */}
       {file && (
-        <div className="border-t border-border/60 bg-background/70 backdrop-blur-xl">
+        <div className="border-t border-border/60 bg-background">
           <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-center gap-x-6 gap-y-1 px-4 py-2.5 text-[11px] text-muted-foreground sm:justify-start sm:px-6">
             <span className="inline-flex items-center gap-1.5">
               <HardDrive className="h-3.5 w-3.5 text-gold/70" />

@@ -31,10 +31,10 @@ export function TopBar({ onHome, onAdmin, isAdmin }: TopBarProps) {
 
   return (
     <header
-      className={`sticky top-0 z-40 border-b backdrop-blur-xl transition-all duration-500 ${
+      className={`sticky top-0 z-40 border-b transition-all duration-500 ${
         scrolled
-          ? "border-gold/25 bg-background/92 shadow-topbar-scrolled"
-          : "border-border/60 bg-background/80"
+          ? "border-gold/25 bg-background shadow-topbar-scrolled"
+          : "border-border/60 bg-background"
       }`}
     >
       {/* خط ذهبي متوهج عند التمرير */}
