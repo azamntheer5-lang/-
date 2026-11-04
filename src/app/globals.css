@@ -50,37 +50,37 @@
 :root {
   --radius: 0.875rem;
 
-  /* لوحة «غابي فاخر» من هوية أم غلا: كريمي + أخضر غابي عميق + ذهبي شامبين */
-  --background: #f2ede0;
-  --foreground: #33392c;
-  --card: #faf6ec;
-  --card-foreground: #33392c;
-  --popover: #faf6ec;
-  --popover-foreground: #33392c;
+  /* لوحة «غابي فاخر غامق»: كريمي عميق + أخضر غابي كامل للخطوط + ذهبي شامبين */
+  --background: #ece4cf;
+  --foreground: #1e4634;
+  --card: #f5efde;
+  --card-foreground: #1e4634;
+  --popover: #f5efde;
+  --popover-foreground: #1e4634;
   --primary: #1e4634;
-  --primary-foreground: #f7f3e8;
-  --secondary: #e8e0ce;
+  --primary-foreground: #f5efde;
+  --secondary: #e1d7bf;
   --secondary-foreground: #1e4634;
-  --muted: #ece5d3;
-  --muted-foreground: #6f6d58;
+  --muted: #e7ddc6;
+  --muted-foreground: #4a5d3a;
   --accent: #e3cd9e;
   --accent-foreground: #142e22;
   --destructive: #dc2626;
-  --border: rgba(30, 70, 52, 0.2);
-  --input: rgba(30, 70, 52, 0.28);
+  --border: rgba(30, 70, 52, 0.25);
+  --input: rgba(30, 70, 52, 0.32);
   --ring: #2d5c44;
   --chart-1: #1e4634;
   --chart-2: #2d5c44;
   --chart-3: #c9a96a;
   --chart-4: #4a5d3a;
   --chart-5: #b8934f;
-  --sidebar: #faf6ec;
-  --sidebar-foreground: #33392c;
+  --sidebar: #f5efde;
+  --sidebar-foreground: #1e4634;
   --sidebar-primary: #1e4634;
-  --sidebar-primary-foreground: #f7f3e8;
+  --sidebar-primary-foreground: #f5efde;
   --sidebar-accent: #e3cd9e;
   --sidebar-accent-foreground: #142e22;
-  --sidebar-border: rgba(30, 70, 52, 0.2);
+  --sidebar-border: rgba(30, 70, 52, 0.25);
   --sidebar-ring: #2d5c44;
 
   /* الأخضر الغابي العميق + الذهبي الشامبين (ألوان هوية أم غلا) */
@@ -89,8 +89,8 @@
   --gold-deep: #142e22;
   --gold-bright: #c9a96a;
   --gold-pale: #e3cd9e;
-  --gold-tint: #ece3cc;
-  --surface: #e8e0ce;
+  --gold-tint: #e7dcc0;
+  --surface: #e1d7bf;
 }
 
 /* ============================================================

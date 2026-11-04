@@ -68,7 +68,7 @@ function GoldDustCanvas() {
     const readAccent = (): [string, string] => {
       const cs = getComputedStyle(document.documentElement);
       const pale = cs.getPropertyValue("--gold-pale").trim() || "#e3cd9e";
-      const tint = cs.getPropertyValue("--gold-tint").trim() || "#ece3cc";
+      const tint = cs.getPropertyValue("--gold-tint").trim() || "#e7dcc0";
       return [pale, tint];
     };
     let [pale, tint] = readAccent();
@@ -244,10 +244,10 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="shine-sweep mx-auto mb-6 inline-flex items-center gap-2.5 rounded-full border border-gold/40 bg-gradient-to-l from-gold/15 via-gold/8 to-gold/15 px-5 py-2 text-sm font-medium text-gold-light shadow-[0_4px_28px_rgba(201,169,106,0.25)] lg:mx-0"
+            className="shine-sweep mx-auto mb-6 inline-flex items-center gap-2.5 rounded-full border border-gold/40 bg-gradient-to-l from-gold/15 via-gold/8 to-gold/15 px-5 py-2 text-sm font-medium text-gold-deep shadow-[0_4px_28px_rgba(201,169,106,0.25)] lg:mx-0"
           >
             <span className="animate-breathe flex h-7 w-7 items-center justify-center rounded-full border border-gold/40 bg-gradient-to-br from-gold-light/30 to-gold/10 shadow-crown-chip">
-              <Crown className="h-4.5 w-4.5 text-gold-light" />
+              <Crown className="h-4.5 w-4.5 text-gold-bright" />
             </span>
             منصة ملكية للخدمات الطلابية — تدعم طالبك من الألف إلى الياء
           </motion.div>
