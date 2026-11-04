@@ -246,7 +246,7 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
             transition={{ duration: 0.6 }}
             className="shine-sweep mx-auto mb-6 inline-flex items-center gap-2.5 rounded-full border border-gold/40 bg-gradient-to-l from-gold/15 via-gold/8 to-gold/15 px-5 py-2 text-sm font-medium text-gold-deep shadow-[0_4px_28px_rgba(201,169,106,0.25)] lg:mx-0"
           >
-            <span className="animate-breathe flex h-7 w-7 items-center justify-center rounded-full border border-gold/40 bg-gradient-to-br from-gold-light/30 to-gold/10 shadow-crown-chip">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full border border-gold/40 bg-gradient-to-br from-gold-light/30 to-gold/10 shadow-crown-chip">
               <Crown className="h-4.5 w-4.5 text-gold-bright" />
             </span>
             منصة ملكية للخدمات الطلابية — تدعم طالبك من الألف إلى الياء
@@ -289,7 +289,7 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
             className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
           >
             <a href="#services">
-              <Button size="lg" className="btn-gold btn-gold-gleam h-12 gap-2 rounded-2xl px-7 text-base font-bold">
+              <Button size="lg" className="btn-gold h-12 gap-2 rounded-2xl px-7 text-base font-bold">
                 تصفّح الخدمات
                 <ArrowLeft className="h-5 w-5" />
               </Button>
@@ -343,9 +343,9 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
           transition={{ duration: 0.8, delay: 0.25 }}
           className="relative mx-auto w-full max-w-[340px] sm:max-w-[400px]"
         >
-          {/* حلقة دوّارة زخرفية */}
+          {/* حلقة زخرفية ثابتة */}
           <div
-            className="animate-spin-slower absolute -inset-6 rounded-full border border-dashed border-gold/25 sm:-inset-8"
+            className="absolute -inset-6 rounded-full border border-dashed border-gold/25 sm:-inset-8"
             aria-hidden
           />
           <div
@@ -382,7 +382,7 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
           </div>
 
           {/* شارات عائمة */}
-          <div className="animate-float-slow glass-card absolute -top-3 -start-4 flex items-center gap-2.5 rounded-2xl px-3.5 py-2.5 sm:-start-8">
+          <div className="glass-card absolute -top-3 -start-4 flex items-center gap-2.5 rounded-2xl px-3.5 py-2.5 sm:-start-8">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gold/15">
               <FileText className="h-4.5 w-4.5 text-gold" />
             </span>
@@ -391,7 +391,7 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
               <span className="block text-[11px] text-muted-foreground">جاهزة للتحميل</span>
             </span>
           </div>
-          <div className="animate-float-slower glass-card absolute -bottom-4 -end-3 flex items-center gap-2.5 rounded-2xl px-3.5 py-2.5 sm:-end-6">
+          <div className="glass-card absolute -bottom-4 -end-3 flex items-center gap-2.5 rounded-2xl px-3.5 py-2.5 sm:-end-6">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gold/15">
               <Wallet className="h-4.5 w-4.5 text-gold" />
             </span>
@@ -403,10 +403,10 @@ function HeroSection({ services }: { services: ServiceDTO[] }) {
         </motion.div>
       </div>
 
-      {/* سهم لأسفل */}
+      {/* سهم لأسفل — ثابت */}
       <div className="relative flex justify-center pb-6">
-        <a href="#services" aria-label="انتقل إلى الخدمات">
-          <ChevronDown className="animate-bounce h-6 w-6 text-gold/60" />
+        <a href="#services" aria-label="انتقل إلى الخدمات" className="transition-transform hover:translate-y-0.5">
+          <ChevronDown className="h-6 w-6 text-gold/60" />
         </a>
       </div>
     </section>
@@ -423,7 +423,7 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle: string }) 
       </h2>
       <div className="mt-4 flex items-center justify-center gap-3">
         <span className="gold-divider w-16 sm:w-28" />
-        <span className="animate-breathe text-base text-gold-light" aria-hidden>✦</span>
+        <span className="text-base text-gold-light" aria-hidden>✦</span>
         <span className="gold-divider w-16 sm:w-28" />
       </div>
       <p className="mt-4 text-sm text-muted-foreground sm:text-base">{subtitle}</p>
@@ -450,7 +450,7 @@ function ServicesGrid({ onOpenService }: { onOpenService: (id: number) => void }
     return (
       <div className="glass-card shine-sweep mx-auto max-w-md rounded-3xl p-8 text-center">
         <p className="text-muted-foreground">تعذر تحميل الخدمات، حدّث الصفحة وأعد المحاولة.</p>
-        <Button onClick={() => refetch()} className="btn-gold btn-gold-gleam mt-5 gap-2 rounded-2xl px-6 font-bold">
+        <Button onClick={() => refetch()} className="btn-gold mt-5 gap-2 rounded-2xl px-6 font-bold">
           <Sparkles className="h-4 w-4" />
           أعد المحاولة
         </Button>
@@ -482,7 +482,7 @@ function ServicesGrid({ onOpenService }: { onOpenService: (id: number) => void }
             <div className="relative z-[2]">
               <div className="mb-4 flex items-start justify-between">
                 <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/25 bg-gradient-to-br from-gold-light/20 to-gold/5 shadow-icon-tile transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                  <Icon className="animate-breathe h-7 w-7 text-gold" />
+                  <Icon className="h-7 w-7 text-gold" />
                 </span>
                 {service.filesCount > 0 && (
                   <span className="rounded-full border border-gold/25 bg-gold/10 px-2.5 py-1 text-[11px] font-bold text-gold-light">

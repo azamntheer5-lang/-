@@ -120,7 +120,7 @@
   font-family: var(--font-amiri), "Amiri", "Times New Roman", serif;
 }
 
-/* ====== نص متدرج: أخضر غابي مع لمعان ذهبي شامبين ====== */
+/* ====== نص متدرج: أخضر غابي مع لمسة ذهبية — ثابت بلا حركة ====== */
 .text-gold-gradient {
   background: linear-gradient(
     120deg,
@@ -133,13 +133,6 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  background-size: 200% auto;
-  animation: gold-shine 6s linear infinite;
-}
-@keyframes gold-shine {
-  to {
-    background-position: 200% center;
-  }
 }
 
 /* ====== بطاقة زجاجية فاخرة ====== */
@@ -177,53 +170,7 @@
 }
 
 /* ====== حركات ====== */
-@keyframes float-slow {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-.animate-float-slow {
-  animation: float-slow 6s ease-in-out infinite;
-}
-
-@keyframes float-slower {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(14px);
-  }
-}
-.animate-float-slower {
-  animation: float-slower 8s ease-in-out infinite;
-}
-
-@keyframes spin-slower {
-  to {
-    transform: rotate(360deg);
-  }
-}
-.animate-spin-slower {
-  animation: spin-slower 28s linear infinite;
-}
-
-@keyframes pulse-gold {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold-bright) 45%, transparent);
-  }
-  50% {
-    box-shadow: 0 0 0 12px transparent;
-  }
-}
-.animate-pulse-gold {
-  animation: pulse-gold 2.4s ease-out infinite;
-}
+/* مبدأ الهدوء: لا حركات لنهائية — فقط انتقالات لحظية عند التفاعل */
 
 /* ====== شريط تمرير أنيق ====== */
 ::-webkit-scrollbar {
@@ -378,44 +325,13 @@
   }
 }
 
-/* ====== لمعة تجتاح الأزرار الذهبية ====== */
-.btn-gold-gleam {
-  position: relative;
-  overflow: hidden;
-}
-.btn-gold-gleam::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -40%;
-  width: 35%;
-  transform: skewX(-22deg);
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.5),
-    transparent
-  );
-  animation: btn-gleam 3.2s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes btn-gleam {
-  0%,
-  55% {
-    transform: skewX(-22deg) translateX(-120%);
-  }
-  85%,
-  100% {
-    transform: skewX(-22deg) translateX(480%);
-  }
-}
+/* ====== لمعة تجتاح الأزرار عند التحويم فقط — بلا تكرار لانهائي ====== */
 
-/* ====== ملمس مخملي (حبيبات فاخرة فوق كامل الصفحة) ====== */
+/* ====== ملمس مخملي (حبيبات فاخرة فوق محتوى الصفحة — تحت العارض والنوافذ) ====== */
 .grain-overlay {
   position: fixed;
   inset: 0;
-  z-index: 70;
+  z-index: 30;
   pointer-events: none;
   opacity: 0.28;
   mix-blend-mode: multiply;
@@ -487,25 +403,11 @@
   left: -4px;
 }
 
-/* ====== نبض توهج للعناصر المميزة ====== */
-@keyframes soft-breathe {
-  0%,
-  100% {
-    filter: brightness(1);
-  }
-  50% {
-    filter: brightness(1.14);
-  }
-}
-.animate-breathe {
-  animation: soft-breathe 3.6s ease-in-out infinite;
-}
+/* ====== نبض توهج للعناصر المميزة — أُزيل (حركة لانهائية مزعجة) ====== */
 
-/* ====== شريط الهوية الفاصل مع لمعان متحرك ====== */
+/* ====== شريط الهوية الفاصل — خط ثابت هادئ ====== */
 .gold-divider {
-  position: relative;
   height: 1px;
-  overflow: visible;
   background: linear-gradient(
     to left,
     transparent,
@@ -514,39 +416,6 @@
     color-mix(in srgb, var(--gold-bright) 18%, transparent) 80%,
     transparent
   );
-}
-.gold-divider::after {
-  content: "";
-  position: absolute;
-  top: -1.5px;
-  left: 0;
-  width: 60px;
-  height: 4px;
-  border-radius: 99px;
-  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--gold-tint) 95%, transparent), transparent);
-  animation: divider-run 4.5s ease-in-out infinite;
-  filter: blur(0.5px);
-}
-@keyframes divider-run {
-  0%,
-  100% {
-    left: 0%;
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  50% {
-    left: calc(100% - 60px);
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    left: calc(100% - 60px);
-    opacity: 0;
-  }
 }
 
 /* ============================================================
@@ -617,14 +486,7 @@
 /* ====== احترام تفضيل تقليل الحركة ====== */
 @media (prefers-reduced-motion: reduce) {
   .shine-sweep::after,
-  .btn-gold-gleam::after,
-  .ring-royal::after,
-  .gold-divider::after,
-  .animate-breathe,
-  .animate-pulse-gold,
-  .animate-float-slow,
-  .animate-float-slower,
-  .animate-spin-slower {
+  .ring-royal::after {
     animation: none !important;
     transition: none !important;
     opacity: 0 !important;

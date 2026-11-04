@@ -216,7 +216,6 @@ function Dashboard({ onExit }: { onExit: () => void }) {
             {publishing ? "جارٍ النشر…" : "نشر التحديثات"}
             {hasChanges && !publishing && (
               <span className="absolute -end-1 -top-1.5 flex h-3.5 w-3.5" aria-hidden>
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold-light opacity-75" />
                 <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-background bg-gold" />
               </span>
             )}

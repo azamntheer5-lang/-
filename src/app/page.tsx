@@ -100,9 +100,9 @@ export default function UmGhalaPlatform() {
       {/* زر واتساب العائم */}
       <WhatsAppFloat visible={openFileId === null} />
 
-      {/* زر الخروج العائم — يظهر خارج الرئيسية أو داخل العارض */}
+      {/* زر الخروج العائم — خارج الرئيسية فقط (لا يظهر فوق عارض الملفات) */}
       <AnimatePresence>
-        {(page !== "home" || openFileId !== null) && (
+        {page !== "home" && openFileId === null && (
           <ExitFloat visible onExit={exitAction} label={exitLabel} />
         )}
       </AnimatePresence>

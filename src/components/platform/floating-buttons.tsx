@@ -18,7 +18,6 @@ export function WhatsAppFloat({ visible }: { visible: boolean }) {
       aria-label="تواصل عبر واتساب"
       className="group fixed bottom-5 left-5 z-[45] sm:bottom-6 sm:left-6"
     >
-      <span className="absolute inset-0 animate-ping rounded-full bg-[#25d366]/30" aria-hidden />
       <span className="absolute -inset-1 rounded-full border border-gold/30" aria-hidden />
       <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#25d366] shadow-[0_10px_30px_rgba(37,211,102,0.4)] transition-transform group-hover:scale-110">
         <svg viewBox="0 0 24 24" className="h-7 w-7 fill-black" aria-hidden>
@@ -53,12 +52,7 @@ export function ExitFloat({
       title={label}
       className="exit-float-btn group fixed bottom-5 right-5 z-[80] flex h-14 w-14 items-center justify-center rounded-full sm:bottom-6 sm:right-6"
     >
-      {/* هالة ملكية دوّارة */}
-      <span
-        className="animate-spin-slower pointer-events-none absolute -inset-1.5 rounded-full border border-dashed border-gold/45"
-        aria-hidden
-      />
-      <span className="animate-pulse-gold pointer-events-none absolute inset-0 rounded-full" aria-hidden />
+      {/* زر ثابت هادئ — بلا حلقات دوّارة أو نابضة */}
       {label === "خروج" ? (
         <LogOut className="h-6 w-6 text-white transition-transform group-hover:-translate-y-0.5" />
       ) : (

@@ -1,7 +1,8 @@
 "use client";
 
-// عارض الملفات: PDF داخل إطار، صور بعدسة فاخرة (تكبير/سحب)، وتنقل بين الملفات
-import { AnimatePresence, motion } from "framer-motion";
+// عارض الملفات: PDF داخل إطار، صور بثبات تام (تكبير/سحب)، وتنقل بين الملفات
+// مبدأ التصميم: هدوء تام — لا حركات لانهائية ولا وميض فوق المعاينة
+import { motion } from "framer-motion";
 import {
   Calendar,
   ChevronLeft,
@@ -104,47 +105,33 @@ function ImageStage({
 
   return (
     <div className="relative flex h-full w-full items-center justify-center overflow-hidden p-4 sm:p-8">
-      {/* هالة ذهبية خلف الصورة */}
-      <div
-        className="pointer-events-none absolute inset-0 viewer-backdrop-glow"
-        aria-hidden
-      />
+      {/* مؤشر تحميل بسيط ثابت — يظهر فقط قبل اكتمال التحميل */}
+      {!loaded && (
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4">
+          <Loader2 className="h-10 w-10 animate-spin text-gold" />
+          <p className="text-sm text-muted-foreground">جارٍ تحضير الصورة...</p>
+        </div>
+      )}
 
-      <AnimatePresence mode="wait">
-        {!loaded && (
-          <motion.div
-            key="loader"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4"
-          >
-            <Loader2 className="h-10 w-10 animate-spin text-gold" />
-            <p className="text-sm text-muted-foreground">جارٍ تحضير الصورة...</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <motion.img
+      <img
         key={fileId}
         src={fileContentUrl(fileId)}
         alt={title}
         draggable={false}
+        loading="eager"
+        decoding="async"
         onLoad={() => setLoaded(true)}
         onClick={toggleZoom}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
-        initial={false}
-        animate={{
+        style={{
+          transformOrigin: origin,
           opacity: loaded ? 1 : 0,
-          scale: zoomed ? 2.4 : 1,
-          x: offset.x,
-          y: offset.y,
+          transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoomed ? 2.4 : 1})`,
+          transition: "opacity 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.35, 1)",
         }}
-        transition={{ opacity: { duration: 0.45 }, default: { type: "spring", stiffness: 260, damping: 30 } }}
-        style={{ transformOrigin: origin }}
         className={`max-h-full max-w-full select-none rounded-2xl border-2 border-gold/40 object-contain shadow-viewer-img ${
           zoomed
             ? isDragging
@@ -154,17 +141,12 @@ function ImageStage({
         }`}
       />
 
-      {/* مؤشر التكبير */}
+      {/* مؤشر التكبير — شارة ثابتة بلا حركة */}
       {loaded && (
-        <motion.span
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
-          className="pointer-events-none absolute bottom-4 start-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-gold/30 bg-white/90 px-3.5 py-1.5 text-[11px] font-bold text-foreground/75 backdrop-blur-md shadow-lg"
-        >
+        <span className="pointer-events-none absolute bottom-4 start-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-gold/30 bg-white/90 px-3.5 py-1.5 text-[11px] font-bold text-foreground/75 backdrop-blur-md shadow-lg">
           {zoomed ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
           {zoomed ? "اضغط للتصغير — اسحب للتجول" : "اضغط على الصورة للتكبير"}
-        </motion.span>
+        </span>
       )}
     </div>
   );
